@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="KWe-fs-Dzz">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="UTY-Jp-LUB">
+            <objects>
+                <navigationController id="KWe-fs-Dzz" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Asa-wt-iv3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="DE1-bG-0Uc" kind="relationship" relationship="rootViewController" id="yuh-eS-VeL"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Brq-dB-smF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1278" y="35"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="aFi-Mc-vZN">
+            <objects>
+                <viewController id="DE1-bG-0Uc" customClass="ViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3dJ-H0-09v"/>
+                        <viewControllerLayoutGuide type="bottom" id="Hua-2A-fv3"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gVX-EN-636">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="myq-5X-0ue">
+                                <rect key="frame" x="149" y="318.5" width="77" height="30"/>
+                                <state key="normal" title="选择打印机"/>
+                                <connections>
+                                    <segue destination="C38-gH-Uql" kind="show" identifier="ShowSelectPrintVC" id="c1i-9o-NVf"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NKX-1x-uGd">
+                                <rect key="frame" x="171" y="385" width="33" height="30"/>
+                                <state key="normal" title="Print"/>
+                                <connections>
+                                    <action selector="touchPrintWithSender:" destination="DE1-bG-0Uc" eventType="touchUpInside" id="Gco-0x-iAH"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="NKX-1x-uGd" firstAttribute="top" secondItem="myq-5X-0ue" secondAttribute="bottom" constant="36.5" id="390-9F-Ngz"/>
+                            <constraint firstItem="myq-5X-0ue" firstAttribute="centerX" secondItem="gVX-EN-636" secondAttribute="centerX" id="5YQ-sN-8Qh"/>
+                            <constraint firstItem="NKX-1x-uGd" firstAttribute="centerX" secondItem="gVX-EN-636" secondAttribute="centerX" id="XSW-I8-MPG"/>
+                            <constraint firstItem="myq-5X-0ue" firstAttribute="centerY" secondItem="gVX-EN-636" secondAttribute="centerY" id="YKR-qF-KuA"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Ayy-tS-6dm"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HW7-hk-8SU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-502" y="35"/>
+        </scene>
+        <!--Printer Table View Controller-->
+        <scene sceneID="BcZ-yC-hIz">
+            <objects>
+                <tableViewController id="C38-gH-Uql" customClass="PrinterTableViewController" customModule="Printer" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="Tw5-ke-9fr">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <connections>
+                            <outlet property="dataSource" destination="C38-gH-Uql" id="ipt-En-70Z"/>
+                            <outlet property="delegate" destination="C38-gH-Uql" id="y3m-C2-vUb"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jrJ-jv-I6W" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="254" y="35"/>
+        </scene>
+    </scenes>
+</document>

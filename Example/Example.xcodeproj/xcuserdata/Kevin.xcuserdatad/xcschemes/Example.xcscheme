@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A7712F71DF905AE0009867F"
-               BuildableName = "Printer.framework"
-               BlueprintName = "Printer"
-               ReferencedContainer = "container:Printer.xcodeproj">
+               BlueprintIdentifier = "0A77131E1DF9140C0009867F"
+               BuildableName = "Example.app"
+               BlueprintName = "Example"
+               ReferencedContainer = "container:Example.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -28,24 +28,14 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A7713001DF905AE0009867F"
-               BuildableName = "PrinterTests.xctest"
-               BlueprintName = "PrinterTests"
-               ReferencedContainer = "container:Printer.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0A7712F71DF905AE0009867F"
-            BuildableName = "Printer.framework"
-            BlueprintName = "Printer"
-            ReferencedContainer = "container:Printer.xcodeproj">
+            BlueprintIdentifier = "0A77131E1DF9140C0009867F"
+            BuildableName = "Example.app"
+            BlueprintName = "Example"
+            ReferencedContainer = "container:Example.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -61,15 +51,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0A7712F71DF905AE0009867F"
-            BuildableName = "Printer.framework"
-            BlueprintName = "Printer"
-            ReferencedContainer = "container:Printer.xcodeproj">
+            BlueprintIdentifier = "0A77131E1DF9140C0009867F"
+            BuildableName = "Example.app"
+            BlueprintName = "Example"
+            ReferencedContainer = "container:Example.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -79,15 +70,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0A7712F71DF905AE0009867F"
-            BuildableName = "Printer.framework"
-            BlueprintName = "Printer"
-            ReferencedContainer = "container:Printer.xcodeproj">
+            BlueprintIdentifier = "0A77131E1DF9140C0009867F"
+            BuildableName = "Example.app"
+            BlueprintName = "Example"
+            ReferencedContainer = "container:Example.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

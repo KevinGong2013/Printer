@@ -10,6 +10,14 @@
 		0A7713021DF905AE0009867F /* Printer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A7712F81DF905AE0009867F /* Printer.framework */; };
 		0A7713071DF905AE0009867F /* PrinterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7713061DF905AE0009867F /* PrinterTests.swift */; };
 		0A7713091DF905AE0009867F /* Printer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A7712FB1DF905AE0009867F /* Printer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0A7713131DF905E20009867F /* PrinterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7713121DF905E20009867F /* PrinterManager.swift */; };
+		0A7713151DF907D50009867F /* CentralManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7713141DF907D50009867F /* CentralManagerDelegate.swift */; };
+		0ADD82C61DF9495100B2F416 /* PrinterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD82C51DF9495100B2F416 /* PrinterTableViewController.swift */; };
+		0ADD82C81DF95EBD00B2F416 /* PeripheralDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD82C71DF95EBD00B2F416 /* PeripheralDelegate.swift */; };
+		0ADD82CA1DFA531400B2F416 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD82C91DFA531400B2F416 /* Command.swift */; };
+		0ADD82D51DFBE99800B2F416 /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD82D41DFBE99800B2F416 /* Receipt.swift */; };
+		0ADD82D71DFBF29E00B2F416 /* Blocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD82D61DFBF29E00B2F416 /* Blocks.swift */; };
+		0ADD82D91DFE75EC00B2F416 /* PrinterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD82D81DFE75EC00B2F416 /* PrinterError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +37,14 @@
 		0A7713011DF905AE0009867F /* PrinterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PrinterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A7713061DF905AE0009867F /* PrinterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterTests.swift; sourceTree = "<group>"; };
 		0A7713081DF905AE0009867F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0A7713121DF905E20009867F /* PrinterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrinterManager.swift; sourceTree = "<group>"; };
+		0A7713141DF907D50009867F /* CentralManagerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CentralManagerDelegate.swift; sourceTree = "<group>"; };
+		0ADD82C51DF9495100B2F416 /* PrinterTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrinterTableViewController.swift; sourceTree = "<group>"; };
+		0ADD82C71DF95EBD00B2F416 /* PeripheralDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralDelegate.swift; sourceTree = "<group>"; };
+		0ADD82C91DFA531400B2F416 /* Command.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
+		0ADD82D41DFBE99800B2F416 /* Receipt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Receipt.swift; sourceTree = "<group>"; };
+		0ADD82D61DFBF29E00B2F416 /* Blocks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blocks.swift; sourceTree = "<group>"; };
+		0ADD82D81DFE75EC00B2F416 /* PrinterError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrinterError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +87,14 @@
 		0A7712FA1DF905AE0009867F /* Printer */ = {
 			isa = PBXGroup;
 			children = (
+				0ADD82C51DF9495100B2F416 /* PrinterTableViewController.swift */,
+				0A7713121DF905E20009867F /* PrinterManager.swift */,
+				0ADD82D81DFE75EC00B2F416 /* PrinterError.swift */,
+				0A7713141DF907D50009867F /* CentralManagerDelegate.swift */,
+				0ADD82C71DF95EBD00B2F416 /* PeripheralDelegate.swift */,
+				0ADD82C91DFA531400B2F416 /* Command.swift */,
+				0ADD82D61DFBF29E00B2F416 /* Blocks.swift */,
+				0ADD82D41DFBE99800B2F416 /* Receipt.swift */,
 				0A7712FB1DF905AE0009867F /* Printer.h */,
 				0A7712FC1DF905AE0009867F /* Info.plist */,
 			);
@@ -149,6 +173,7 @@
 					0A7712F71DF905AE0009867F = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = PU764FA74Y;
+						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
 					};
 					0A7713001DF905AE0009867F = {
@@ -198,6 +223,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0ADD82D51DFBE99800B2F416 /* Receipt.swift in Sources */,
+				0A7713151DF907D50009867F /* CentralManagerDelegate.swift in Sources */,
+				0ADD82C61DF9495100B2F416 /* PrinterTableViewController.swift in Sources */,
+				0ADD82D91DFE75EC00B2F416 /* PrinterError.swift in Sources */,
+				0ADD82C81DF95EBD00B2F416 /* PeripheralDelegate.swift in Sources */,
+				0ADD82CA1DFA531400B2F416 /* Command.swift in Sources */,
+				0ADD82D71DFBF29E00B2F416 /* Blocks.swift in Sources */,
+				0A7713131DF905E20009867F /* PrinterManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,6 +355,7 @@
 		0A77130D1DF905AE0009867F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = PU764FA74Y;
@@ -330,10 +364,12 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Printer/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.KevinGong.Printer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -341,6 +377,7 @@
 		0A77130E1DF905AE0009867F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = PU764FA74Y;
@@ -349,6 +386,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Printer/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.KevinGong.Printer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -360,6 +398,7 @@
 		0A7713101DF905AE0009867F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = PU764FA74Y;
 				INFOPLIST_FILE = PrinterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -372,6 +411,7 @@
 		0A7713111DF905AE0009867F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = PU764FA74Y;
 				INFOPLIST_FILE = PrinterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -400,6 +440,7 @@
 				0A77130E1DF905AE0009867F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0A77130F1DF905AE0009867F /* Build configuration list for PBXNativeTarget "PrinterTests" */ = {
 			isa = XCConfigurationList;
@@ -408,6 +449,7 @@
 				0A7713111DF905AE0009867F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
