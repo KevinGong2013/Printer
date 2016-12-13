@@ -191,6 +191,10 @@ public class PrinterManager {
 
         let serviceUUIDs = PrinterManager.specifiedServices.map { CBUUID(string: $0) }
 
+        centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs).forEach {
+            centralManager.cancelPeripheralConnection($0)
+        }
+
         centralManager.scanForPeripherals(withServices: serviceUUIDs, options: nil)
 
         return nil
