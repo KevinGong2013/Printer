@@ -288,6 +288,8 @@ public class PrinterManager {
     deinit {
         connectTimer?.invalidate()
         connectTimer = nil
+
+        disconnectAllPrinter()
     }
 }
 
