@@ -70,6 +70,14 @@ class CentralManagerDelegate: NSObject, CBCentralManagerDelegate {
     public func centralManagerDidUpdateState(_ central: CBCentralManager) {
 
         centralManagerDidUpdateState?(central)
+
+        let ss = services.map { CBUUID(string: $0) }
+
+        // discover services for connected per.
+        central.retrieveConnectedPeripherals(withServices: ss).forEach {
+            $0.delegate = peripheralDelegate
+            $0.discoverServices(ss)
+        }
     }
 
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
