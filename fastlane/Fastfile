@@ -30,7 +30,7 @@ platform :ios do
 
       git_commit_all(message: "Bump version to #{target_version}")
 
-      Actions.sh("git tag -m #{target_version} -m 'added tag'")
+      Actions.sh("git tag -m #{target_version} -s ''")
 
       push_to_git_remote
 
