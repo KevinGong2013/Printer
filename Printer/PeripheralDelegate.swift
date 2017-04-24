@@ -49,12 +49,7 @@ class PeripheralDelegate: NSObject, CBPeripheralDelegate {
 
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
 
-        guard error == nil else {
-
-            print("\(error)")
-
-            return
-        }
+        guard error == nil else { return }
 
         guard let prServices = peripheral.services else {
             return
