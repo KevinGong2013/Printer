@@ -143,23 +143,23 @@ public class PrinterManager {
             }
         }
 
-        centralManagerDelegate.centralManagerDidDisConnectPeripheralWithError = { [weak self] in
+        centralManagerDelegate.centralManagerDidDisConnectPeripheralWithError = { [weak self] _, peripheral, _ in
 
             guard let `self` = self else {
                 return
             }
 
-            self.nearbyPrinterDidChange(.update(Printer($0.1)))
-            self.peripheralDelegate.disconnect($0.1)
+            self.nearbyPrinterDidChange(.update(Printer(peripheral)))
+            self.peripheralDelegate.disconnect(peripheral)
         }
 
-        centralManagerDelegate.centralManagerDidFailToConnectPeripheralWithError = { [weak self] in
+        centralManagerDelegate.centralManagerDidFailToConnectPeripheralWithError = { [weak self] _, _, err in
 
             guard let `self` = self else {
                 return
             }
 
-            if let error = $0.2 {
+            if let error = err {
                 debugPrint(error.localizedDescription)
             }
 
