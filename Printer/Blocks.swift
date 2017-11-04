@@ -105,7 +105,7 @@ public extension TextBlock {
 
         let string = k + v
 
-        for c in string.characters {
+        for c in string {
             if (c >= "\u{2E80}" && c <= "\u{FE4F}") || c == "\u{FFE5}"{
                 num -= 2
             } else  {
