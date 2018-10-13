@@ -48,7 +48,7 @@ public class PrinterTableViewController: UITableViewController {
         cell.accessoryType = printer.state == .connected ? .checkmark : .none
 
         if printer.isConnecting {
-            let v = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+            let v = UIActivityIndicatorView(style: .gray)
             v.startAnimating()
             cell.accessoryView = v
         } else {

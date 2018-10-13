@@ -215,7 +215,7 @@ public class PrinterManager {
             t.invalidate()
         }
         connectTimer = Timer(timeInterval: 15, target: self, selector: #selector(connectTimeout(_:)), userInfo: p.identifier, repeats: false)
-        RunLoop.main.add(connectTimer!, forMode: .defaultRunLoopMode)
+        RunLoop.main.add(connectTimer!, forMode: .default)
 
         centralManager.connect(per, options: [CBConnectPeripheralOptionNotifyOnDisconnectionKey: true])
     }
