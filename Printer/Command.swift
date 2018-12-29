@@ -81,11 +81,11 @@ extension ESC_POSCommand {
     
     
     static func QRSetSize (point: UInt8 = 8) -> ESC_POSCommand {
-        return ESC_POSCommand([29,40,107,3,0,49,67,point])
+        return ESC_POSCommand([29, 40 ,107 ,3 ,0 ,49 , 67, point])
     }
     
     static func QRSetRecoveryLevel() -> ESC_POSCommand {
-        return  ESC_POSCommand(rawValue: [29,40,107,3,0,49,69,51])
+        return  ESC_POSCommand(rawValue: [29, 40, 107, 3, 0, 49, 69, 51])
     }
     
     
@@ -95,11 +95,11 @@ extension ESC_POSCommand {
         let pl = s % 256
         let ph = s / 256
         
-        return ESC_POSCommand([29,40,107,UInt8(pl),UInt8(ph),49,80,48])
+        return ESC_POSCommand([29, 40, 107, UInt8(pl), UInt8(ph), 49, 80, 48])
     }
     
     
     static func QRPrint() -> ESC_POSCommand {
-        return ESC_POSCommand([29,40,107,3,0,49,81,48])
+        return ESC_POSCommand([29, 40, 107, 3, 0, 49, 81, 48])
     }
 }

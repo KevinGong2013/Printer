@@ -60,7 +60,7 @@ public class PrinterTableViewController: UITableViewController {
     }
 
     override public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return printerManager == nil ? "please set printer manager" : "აირჩიეთ პრინტერი"
+        return printerManager == nil ? "please set printer manager" : "选择打印机"
     }
 
     override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
