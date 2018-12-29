@@ -22,7 +22,7 @@ class ViewController: UIViewController {
 
         if pm.canPrint {
 
-            let receipt = Receipt(
+            var receipt = Receipt(
 
                 "收据单".bc.title,
                 "空行".bc.blank(),
@@ -47,7 +47,10 @@ class ViewController: UIViewController {
                 "空行".bc.blank(),
                 Character("_").bc.dividing
             )
-
+            
+            receipt.feedLinesOnTail = 2
+            receipt.feedPointsPerLine = 60
+            
             pm.print(receipt)
         } else {
 

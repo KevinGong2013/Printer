@@ -31,6 +31,9 @@ public protocol Block {
 
 public struct Receipt {
 
+    public var feedPointsPerLine: UInt8 = 70
+    public var feedLinesOnTail: UInt8 = 3
+    
     fileprivate var blocks = [Block]()
 
     public init(_ blocks: Block...) {
@@ -47,9 +50,9 @@ extension Receipt: Printable {
 
     public var datas: [Data] {
 
-        var ds = blocks.map { Data.reset + $0.data + Data.print(70) }
+        var ds = blocks.map { Data.reset + $0.data + Data.print(feedPointsPerLine) }
 
-        let data = Data(bytes: ESC_POSCommand.printAndFeed(lines: 3).rawValue)
+        let data = Data(bytes: ESC_POSCommand.printAndFeed(lines: feedLinesOnTail).rawValue)
         ds.append(data)
 
         return ds
