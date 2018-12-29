@@ -57,6 +57,7 @@ class ViewController: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? PrinterTableViewController {
+            vc.sectionTitle = "Choose Printer"
             vc.printerManager = pm
         }
     }

@@ -12,6 +12,8 @@ public class PrinterTableViewController: UITableViewController {
 
     public weak var printerManager: PrinterManager?
 
+    public var sectionTitle: String? // convenience property
+    
     var dataSource = [Printer]()
 
     override public func viewDidLoad() {
@@ -60,7 +62,10 @@ public class PrinterTableViewController: UITableViewController {
     }
 
     override public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return printerManager == nil ? "please set printer manager" : "选择打印机"
+        guard printerManager != nil else {
+            fatalError("printer manager must not be nil.")
+        }
+        return sectionTitle ?? "选择打印机"
     }
 
     override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
