@@ -21,6 +21,30 @@ public extension String {
     }
 }
 
+public struct QRBlock: Block {
+    
+    let content: String
+    
+    public init(_ content: String) {
+        self.content = content
+    }
+    
+    public var data: Data {
+        
+        var result = Data()
+        
+        result.append(Data(bytes: ESC_POSCommand.justification(1).rawValue + ESC_POSCommand.QRSetSize().rawValue + ESC_POSCommand.QRSetRecoveryLevel().rawValue + ESC_POSCommand.QRGetReadyToStore(text: content).rawValue))
+        
+        if let cd = content.data(using: String.Encoding.GB_18030_2000) {
+            result.append(cd)
+        }
+        
+        result.append(Data(bytes: ESC_POSCommand.QRPrint().rawValue))
+        
+        return result
+    }
+}
+
 public struct TextBlock: Block {
 
     let content: String
@@ -137,6 +161,10 @@ public struct BlockConstructor {
 
     public init(_ content: Any) {
         self.content = content
+    }
+    
+    public var qr: Block {
+        return QRBlock(String(describing: content))
     }
 
     public var title: Block {
