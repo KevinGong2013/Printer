@@ -95,14 +95,14 @@ extension PrinterTableViewController: PrinterManagerDelegate {
             dataSource.append(p)
             tableView.insertRows(at: [indexPath], with: .automatic)
         case let .update(p):
-            guard let row = (dataSource.index() { $0.identifier == p.identifier } ) else {
+            guard let row = (dataSource.firstIndex() { $0.identifier == p.identifier } ) else {
                 return
             }
             dataSource[row] = p
             let indexPath = IndexPath(row: row, section: 0)
             tableView.reloadRows(at: [indexPath], with: .automatic)
         case let .remove(identifier):
-            guard let row = (dataSource.index() { $0.identifier == identifier } ) else {
+            guard let row = (dataSource.firstIndex() { $0.identifier == identifier } ) else {
                 return
             }
             dataSource.remove(at: row)

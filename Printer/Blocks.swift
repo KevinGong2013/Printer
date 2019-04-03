@@ -73,7 +73,7 @@ public struct TextBlock: Block {
 
 public extension TextBlock {
 
-    public enum PredefinedAttribute: Attribute {
+    enum PredefinedAttribute: Attribute {
 
         public enum ScaleLevel: UInt8 {
 
@@ -112,7 +112,7 @@ public extension TextBlock {
         }
     }
 
-    public init(content: String, predefined attributes: PredefinedAttribute...) {
+    init(content: String, predefined attributes: PredefinedAttribute...) {
         self.init(content, attributes: attributes)
     }
 }
@@ -197,28 +197,28 @@ public struct BlockConstructor {
 
 public extension String {
 
-    public var bc: BlockConstructor {
+    var bc: BlockConstructor {
         return BlockConstructor(self)
     }
 }
 
 public extension Character {
 
-    public var bc: BlockConstructor {
+    var bc: BlockConstructor {
         return BlockConstructor(self)
     }
 }
 
 public extension Int {
 
-    public var bc: BlockConstructor {
+    var bc: BlockConstructor {
         return BlockConstructor(self)
     }
 }
 
 public extension Double {
 
-    public var bc: BlockConstructor {
+    var bc: BlockConstructor {
         return BlockConstructor(self)
     }
 }
