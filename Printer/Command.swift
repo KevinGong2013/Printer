@@ -29,7 +29,7 @@ public struct ESC_POSCommand: RawRepresentable {
 extension ESC_POSCommand {
 
     // Clears the data in the print buffer and resets the printer modes to the modes that were in effect when the power was turned on.
-    static let Initialize = ESC_POSCommand(rawValue: [27, 64])
+    static let initialize = ESC_POSCommand(rawValue: [27, 64])
 
     // Prints the data in the print buffer and feeds n lines.
     static func printAndFeed(lines: UInt8 = 1) -> ESC_POSCommand {
@@ -61,7 +61,7 @@ extension ESC_POSCommand {
     }
 
     // Turn white/black reverse printing mode on/off
-    static func white_blackReverse(mode: Bool) -> ESC_POSCommand {
+    static func whiteBlackReverse(mode: Bool) -> ESC_POSCommand {
         return ESC_POSCommand([29, 66, mode ? 1 : 0])
     }
 
@@ -79,6 +79,7 @@ extension ESC_POSCommand {
         return ESC_POSCommand([27, 45, mode])
     }
     
+    // Configure QR
     static func QRSetSize (point: UInt8 = 8) -> ESC_POSCommand {
         return ESC_POSCommand([29, 40, 107, 3, 0, 49, 67, point])
     }

@@ -33,13 +33,16 @@ public struct QRBlock: Block {
         
         var result = Data()
         
-        result.append(Data(bytes: ESC_POSCommand.justification(1).rawValue + ESC_POSCommand.QRSetSize().rawValue + ESC_POSCommand.QRSetRecoveryLevel().rawValue + ESC_POSCommand.QRGetReadyToStore(text: content).rawValue))
+        result.append(Data(esc_pos: ESC_POSCommand.justification(1),
+                                    ESC_POSCommand.QRSetSize(),
+                                    ESC_POSCommand.QRSetRecoveryLevel(),
+                                    ESC_POSCommand.QRGetReadyToStore(text: content)))
         
         if let cd = content.data(using: String.Encoding.GB_18030_2000) {
             result.append(cd)
         }
         
-        result.append(Data(bytes: ESC_POSCommand.QRPrint().rawValue))
+        result.append(Data(esc_pos: .QRPrint()))
         
         return result
     }
@@ -60,7 +63,7 @@ public struct TextBlock: Block {
         var result = Data()
 
         if let attrs = attributes {
-            result.append(Data(bytes: attrs.flatMap { $0.attribute }))
+            result.append(Data(attrs.flatMap { $0.attribute }))
         }
 
         if let cd = content.data(using: String.Encoding.GB_18030_2000) {

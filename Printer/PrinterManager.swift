@@ -21,6 +21,8 @@ private extension CBPeripheral {
             return .connecting
         case .disconnecting:
             return .disconnecting
+        @unknown default:
+            return .disconnected
         }
     }
 }
