@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A06FC0C225D9ABC00D65272 /* TextBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A06FC0B225D9ABC00D65272 /* TextBlock.swift */; };
+		0A06FC0E225D9D4F00D65272 /* QRCodeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A06FC0D225D9D4F00D65272 /* QRCodeBlock.swift */; };
+		0A06FC10225D9F1F00D65272 /* DividingBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A06FC0F225D9F1F00D65272 /* DividingBlock.swift */; };
 		0A7713091DF905AE0009867F /* Printer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A7712FB1DF905AE0009867F /* Printer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A7713131DF905E20009867F /* PrinterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7713121DF905E20009867F /* PrinterManager.swift */; };
 		0A7713151DF907D50009867F /* CentralManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7713141DF907D50009867F /* CentralManagerDelegate.swift */; };
@@ -14,11 +17,14 @@
 		0ADD82C81DF95EBD00B2F416 /* PeripheralDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD82C71DF95EBD00B2F416 /* PeripheralDelegate.swift */; };
 		0ADD82CA1DFA531400B2F416 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD82C91DFA531400B2F416 /* Command.swift */; };
 		0ADD82D51DFBE99800B2F416 /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD82D41DFBE99800B2F416 /* Receipt.swift */; };
-		0ADD82D71DFBF29E00B2F416 /* Blocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD82D61DFBF29E00B2F416 /* Blocks.swift */; };
+		0ADD82D71DFBF29E00B2F416 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD82D61DFBF29E00B2F416 /* Block.swift */; };
 		0ADD82D91DFE75EC00B2F416 /* PrinterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD82D81DFE75EC00B2F416 /* PrinterError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A06FC0B225D9ABC00D65272 /* TextBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBlock.swift; sourceTree = "<group>"; };
+		0A06FC0D225D9D4F00D65272 /* QRCodeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeBlock.swift; sourceTree = "<group>"; };
+		0A06FC0F225D9F1F00D65272 /* DividingBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividingBlock.swift; sourceTree = "<group>"; };
 		0A7712F81DF905AE0009867F /* Printer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Printer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A7712FB1DF905AE0009867F /* Printer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Printer.h; sourceTree = "<group>"; };
 		0A7712FC1DF905AE0009867F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -28,7 +34,7 @@
 		0ADD82C71DF95EBD00B2F416 /* PeripheralDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralDelegate.swift; sourceTree = "<group>"; };
 		0ADD82C91DFA531400B2F416 /* Command.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		0ADD82D41DFBE99800B2F416 /* Receipt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Receipt.swift; sourceTree = "<group>"; };
-		0ADD82D61DFBF29E00B2F416 /* Blocks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blocks.swift; sourceTree = "<group>"; };
+		0ADD82D61DFBF29E00B2F416 /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 		0ADD82D81DFE75EC00B2F416 /* PrinterError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrinterError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -43,6 +49,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A06FC0A225D913200D65272 /* Blocks */ = {
+			isa = PBXGroup;
+			children = (
+				0ADD82C91DFA531400B2F416 /* Command.swift */,
+				0ADD82D41DFBE99800B2F416 /* Receipt.swift */,
+				0ADD82D61DFBF29E00B2F416 /* Block.swift */,
+				0A06FC0B225D9ABC00D65272 /* TextBlock.swift */,
+				0A06FC0D225D9D4F00D65272 /* QRCodeBlock.swift */,
+				0A06FC0F225D9F1F00D65272 /* DividingBlock.swift */,
+			);
+			path = Blocks;
+			sourceTree = "<group>";
+		};
+		0A06FC11225D9F4A00D65272 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				0ADD82C51DF9495100B2F416 /* PrinterTableViewController.swift */,
+				0A7713141DF907D50009867F /* CentralManagerDelegate.swift */,
+				0ADD82C71DF95EBD00B2F416 /* PeripheralDelegate.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		0A7712EE1DF905AE0009867F = {
 			isa = PBXGroup;
 			children = (
@@ -62,14 +91,10 @@
 		0A7712FA1DF905AE0009867F /* Printer */ = {
 			isa = PBXGroup;
 			children = (
-				0ADD82C51DF9495100B2F416 /* PrinterTableViewController.swift */,
 				0A7713121DF905E20009867F /* PrinterManager.swift */,
 				0ADD82D81DFE75EC00B2F416 /* PrinterError.swift */,
-				0A7713141DF907D50009867F /* CentralManagerDelegate.swift */,
-				0ADD82C71DF95EBD00B2F416 /* PeripheralDelegate.swift */,
-				0ADD82C91DFA531400B2F416 /* Command.swift */,
-				0ADD82D61DFBF29E00B2F416 /* Blocks.swift */,
-				0ADD82D41DFBE99800B2F416 /* Receipt.swift */,
+				0A06FC11225D9F4A00D65272 /* UI */,
+				0A06FC0A225D913200D65272 /* Blocks */,
 				0A7712FB1DF905AE0009867F /* Printer.h */,
 				0A7712FC1DF905AE0009867F /* Info.plist */,
 			);
@@ -160,11 +185,14 @@
 			files = (
 				0ADD82D51DFBE99800B2F416 /* Receipt.swift in Sources */,
 				0A7713151DF907D50009867F /* CentralManagerDelegate.swift in Sources */,
+				0A06FC0C225D9ABC00D65272 /* TextBlock.swift in Sources */,
 				0ADD82C61DF9495100B2F416 /* PrinterTableViewController.swift in Sources */,
 				0ADD82D91DFE75EC00B2F416 /* PrinterError.swift in Sources */,
 				0ADD82C81DF95EBD00B2F416 /* PeripheralDelegate.swift in Sources */,
+				0A06FC10225D9F1F00D65272 /* DividingBlock.swift in Sources */,
 				0ADD82CA1DFA531400B2F416 /* Command.swift in Sources */,
-				0ADD82D71DFBF29E00B2F416 /* Blocks.swift in Sources */,
+				0A06FC0E225D9D4F00D65272 /* QRCodeBlock.swift in Sources */,
+				0ADD82D71DFBF29E00B2F416 /* Block.swift in Sources */,
 				0A7713131DF905E20009867F /* PrinterManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

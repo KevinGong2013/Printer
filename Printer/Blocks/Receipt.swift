@@ -25,16 +25,6 @@ extension Data {
     }
 }
 
-extension Data: Block {
-
-    public var data: Data { return self }
-}
-
-public protocol Block {
-
-    var data: Data { get }
-}
-
 public struct Receipt {
 
     public var feedPointsPerLine: UInt8 = 70
@@ -54,13 +44,12 @@ public struct Receipt {
 
 extension Receipt: Printable {
 
-    public var datas: [Data] {
-
-        var ds = blocks.map { Data.reset + $0.data + Data.print(feedPointsPerLine) }
+    public func data(using encoding: String.Encoding) -> [Data] {
+        var ds = blocks.map { Data.reset + $0.data(using: encoding) + Data.print(feedPointsPerLine) }
         
         let data = Data(esc_pos: .printAndFeed(lines: feedLinesOnTail))
         ds.append(data)
-
+        
         return ds
     }
 }

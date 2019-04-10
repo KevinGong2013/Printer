@@ -9,6 +9,17 @@
 import Foundation
 import CoreBluetooth
 
+public extension String {
+    struct GBEncoding {
+        public static let GB_18030_2000 = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue)))
+    }
+}
+
+public protocol Printable {
+    
+    func data(using encoding: String.Encoding) -> [Data]
+}
+
 private extension CBPeripheral {
 
     var printerState: Printer.State {
@@ -268,7 +279,7 @@ public class PrinterManager {
         }
     }
 
-    public func print(_ content: Printable, completeBlock: ((PError?) -> ())? = nil) {
+    public func print(_ content: Printable, encoding: String.Encoding = String.GBEncoding.GB_18030_2000, completeBlock: ((PError?) -> ())? = nil) {
 
         guard let p = peripheralDelegate.writablePeripheral, let c = peripheralDelegate.writablecharacteristic else {
 
@@ -276,7 +287,7 @@ public class PrinterManager {
             return
         }
 
-        for data in content.datas {
+        for data in content.data(using: encoding) {
 
             p.writeValue(data, for: c, type: .withoutResponse)
         }
@@ -290,9 +301,4 @@ public class PrinterManager {
 
         disconnectAllPrinter()
     }
-}
-
-public protocol Printable {
-
-    var datas: [Data] { get }
 }
