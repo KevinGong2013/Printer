@@ -45,6 +45,8 @@ class ViewController: UIViewController {
                 "空行".bc.blank(),
                 "签名:".bc.text,
                 "空行".bc.blank(),
+                "www.yuxiaor.com".bc.qr,
+                1.bc.title,
                 Character("_").bc.dividing
             )
             
