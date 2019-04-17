@@ -2,7 +2,7 @@
 //  Receipt.swift
 //  Printer
 //
-//  Created by GongXiang on 12/10/16.
+//  Created by gix on 12/10/16.
 //  Copyright © 2016 Kevin. All rights reserved.
 //
 
@@ -37,7 +37,6 @@ public struct Receipt {
     }
 
     public mutating func add(block: Block) {
-
         blocks.append(block)
     }
 }

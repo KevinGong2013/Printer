@@ -10,6 +10,7 @@
 		0A06FC0C225D9ABC00D65272 /* TextBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A06FC0B225D9ABC00D65272 /* TextBlock.swift */; };
 		0A06FC0E225D9D4F00D65272 /* QRCodeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A06FC0D225D9D4F00D65272 /* QRCodeBlock.swift */; };
 		0A06FC10225D9F1F00D65272 /* DividingBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A06FC0F225D9F1F00D65272 /* DividingBlock.swift */; };
+		0A06FC14225DAB4600D65272 /* ImageBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A06FC13225DAB4600D65272 /* ImageBlock.swift */; };
 		0A7713091DF905AE0009867F /* Printer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A7712FB1DF905AE0009867F /* Printer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A7713131DF905E20009867F /* PrinterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7713121DF905E20009867F /* PrinterManager.swift */; };
 		0A7713151DF907D50009867F /* CentralManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7713141DF907D50009867F /* CentralManagerDelegate.swift */; };
@@ -25,6 +26,7 @@
 		0A06FC0B225D9ABC00D65272 /* TextBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBlock.swift; sourceTree = "<group>"; };
 		0A06FC0D225D9D4F00D65272 /* QRCodeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeBlock.swift; sourceTree = "<group>"; };
 		0A06FC0F225D9F1F00D65272 /* DividingBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividingBlock.swift; sourceTree = "<group>"; };
+		0A06FC13225DAB4600D65272 /* ImageBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageBlock.swift; sourceTree = "<group>"; };
 		0A7712F81DF905AE0009867F /* Printer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Printer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A7712FB1DF905AE0009867F /* Printer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Printer.h; sourceTree = "<group>"; };
 		0A7712FC1DF905AE0009867F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 				0A06FC0B225D9ABC00D65272 /* TextBlock.swift */,
 				0A06FC0D225D9D4F00D65272 /* QRCodeBlock.swift */,
 				0A06FC0F225D9F1F00D65272 /* DividingBlock.swift */,
+				0A06FC13225DAB4600D65272 /* ImageBlock.swift */,
 			);
 			path = Blocks;
 			sourceTree = "<group>";
@@ -188,6 +191,7 @@
 				0A06FC0C225D9ABC00D65272 /* TextBlock.swift in Sources */,
 				0ADD82C61DF9495100B2F416 /* PrinterTableViewController.swift in Sources */,
 				0ADD82D91DFE75EC00B2F416 /* PrinterError.swift in Sources */,
+				0A06FC14225DAB4600D65272 /* ImageBlock.swift in Sources */,
 				0ADD82C81DF95EBD00B2F416 /* PeripheralDelegate.swift in Sources */,
 				0A06FC10225D9F1F00D65272 /* DividingBlock.swift in Sources */,
 				0ADD82CA1DFA531400B2F416 /* Command.swift in Sources */,

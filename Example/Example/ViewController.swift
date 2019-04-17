@@ -15,26 +15,19 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
 
     @IBAction func touchPrint(sender: UIButton) {
 
+        let image = UIImage(named: "demo")!
+
         if pm.canPrint {
 
             var receipt = Receipt(
-                .title("title".uppercased()),
-                .blank,
                 .dividing,
-                .kv(key: "Key", value: "Value-- Style"),
-                .kv(key: "1", value: "2"),
-                .kv(key: "a", value: "b"),
-                .kv(key: "cat", value: "dog"),
-                .blank,
+                .qr("Icey.Liao"),
                 .dividing,
-                .title("QRCode"),
-                .qr("https://www.yuxiaor.com"),
-                .dividing
+                .image(image, maxWidth: 100)
             )
             
             receipt.feedLinesOnTail = 2

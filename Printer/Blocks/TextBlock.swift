@@ -2,7 +2,7 @@
 //  TextBlock.swift
 //  Printer
 //
-//  Created by GongXiang on 2019/4/10.
+//  Created by gix on 2019/4/10.
 //  Copyright © 2019 Kevin. All rights reserved.
 //
 

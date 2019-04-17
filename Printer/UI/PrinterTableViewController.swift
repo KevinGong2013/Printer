@@ -2,7 +2,7 @@
 //  PrinterTableViewController.swift
 //  Printer
 //
-//  Created by GongXiang on 12/8/16.
+//  Created by gix on 12/8/16.
 //  Copyright © 2016 Kevin. All rights reserved.
 //
 
@@ -23,7 +23,6 @@ public class PrinterTableViewController: UITableViewController {
 
         dataSource = printerManager?.nearbyPrinters ?? []
         printerManager?.delegate = self
-        
     }
 
     override public func numberOfSections(in tableView: UITableView) -> Int {

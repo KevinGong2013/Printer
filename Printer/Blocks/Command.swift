@@ -2,7 +2,7 @@
 //  Command.swift
 //  Printer
 //
-//  Created by GongXiang on 12/9/16.
+//  Created by gix on 12/9/16.
 //  Copyright © 2016 Kevin. All rights reserved.
 //
 
@@ -79,8 +79,19 @@ extension ESC_POSCommand {
         return ESC_POSCommand([27, 45, mode])
     }
     
+    enum ImageSize: UInt8 {
+        case normal = 48
+        case doubleWidth = 49
+        case doubleHeight = 50
+        case doubleSize = 51
+    }
+    
+    static func beginPrintImage(m: ImageSize = .normal, xl: UInt8, xH: UInt8, yl: UInt8, yH: UInt8, dk: [UInt8]...) -> ESC_POSCommand {
+        return ESC_POSCommand(rawValue: [29, 118, 48, m.rawValue, xl, xH, yl, yH])
+    }
+    
     // Configure QR
-    static func QRSetSize (point: UInt8 = 8) -> ESC_POSCommand {
+    static func QRSetSize(point: UInt8 = 8) -> ESC_POSCommand {
         return ESC_POSCommand([29, 40, 107, 3, 0, 49, 67, point])
     }
     

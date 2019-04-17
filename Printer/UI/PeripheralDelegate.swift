@@ -2,7 +2,7 @@
 //  PeripheralDelegate.swift
 //  Printer
 //
-//  Created by GongXiang on 12/8/16.
+//  Created by gix on 12/8/16.
 //  Copyright © 2016 Kevin. All rights reserved.
 //
 
