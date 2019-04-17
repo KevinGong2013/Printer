@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct QRBlock: PritableBlock {
+struct QRBlock: PrintableBlock {
     
     let content: String
     

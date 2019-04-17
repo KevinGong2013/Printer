@@ -8,11 +8,11 @@
 
 import Foundation
 
-public protocol PritableBlock {
+public protocol PrintableBlock {
     func data(using encoding: String.Encoding) -> Data
 }
 
-public enum Block: PritableBlock {
+public enum Block: PrintableBlock {
     case blank
     case qr(String)
     case title(String)
@@ -20,7 +20,7 @@ public enum Block: PritableBlock {
     case kv(key: String, value: String)
     case dividing
     case image(ESCPOSEImage, maxWidth: CGFloat)
-    case custom(block: PritableBlock)
+    case custom(block: PrintableBlock)
     
     public func data(using encoding: String.Encoding) -> Data {
         switch self {

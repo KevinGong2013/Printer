@@ -20,7 +20,7 @@ enum Hyphen: DividingPrivoider {
     }
 }
 
-public struct DividingBlock: PritableBlock {
+public struct DividingBlock: PrintableBlock {
     
     let provider: DividingPrivoider
     

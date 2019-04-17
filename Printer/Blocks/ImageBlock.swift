@@ -26,7 +26,7 @@ extension UIImage: ESCPOSEImage {
     }
 }
 
-struct ImageBlock: PritableBlock {
+struct ImageBlock: PrintableBlock {
     
     let image: ESCPOSEImage
     let maxWidth: CGFloat

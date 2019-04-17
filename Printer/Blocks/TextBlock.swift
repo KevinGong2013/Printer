@@ -51,7 +51,7 @@ public enum PredefinedAttribute: Attribute {
     }
 }
 
-public struct TextBlock: PritableBlock {
+public struct TextBlock: PrintableBlock {
     
     let content: String
     let attributes: [Attribute]?
