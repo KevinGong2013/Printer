@@ -86,7 +86,9 @@ extension ESC_POSCommand {
         case doubleSize = 51
     }
     
-    static func beginPrintImage(m: ImageSize = .normal, xl: UInt8, xH: UInt8, yl: UInt8, yH: UInt8, dk: [UInt8]...) -> ESC_POSCommand {
+    
+    // modified Pradeep Sakharelia 18/05/2019
+    static func beginPrintImage(m: ImageSize = .normal, xl: UInt8, xH: UInt8, yl: UInt8, yH: UInt8) -> ESC_POSCommand {
         return ESC_POSCommand(rawValue: [29, 118, 48, m.rawValue, xl, xH, yl, yH])
     }
     

@@ -3,6 +3,7 @@
 //  Example
 //
 //  Created by GongXiang on 12/8/16.
+//  Updated by Pradeep Sakharelia on 15/05/19
 //  Copyright © 2016 Kevin. All rights reserved.
 //
 
@@ -27,7 +28,8 @@ class ViewController: UIViewController {
                 .dividing,
                 .qr("Icey.Liao"),
                 .dividing,
-                .image(image, maxWidth: 100)
+                .image(image, attributes: [ImageBlock.PredefinedAttribute.alignment(.center)])
+                //  Updated by Pradeep Sakharelia on 15/05/19
             )
             
             receipt.feedLinesOnTail = 2

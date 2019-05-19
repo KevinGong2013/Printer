@@ -3,6 +3,7 @@
 //  Printer
 //
 //  Created by gix on 12/10/16.
+//  Updated by Pradeep Sakharelia on 15/05/19
 //  Copyright © 2016 Kevin. All rights reserved.
 //
 
@@ -19,8 +20,8 @@ public enum Block: PrintableBlock {
     case text(TextBlock)
     case kv(key: String, value: String)
     case dividing
-    case image(ESCPOSEImage, maxWidth: CGFloat)
-    case custom(block: PrintableBlock)
+    case image(UIImage, attributes: [Attribute]?)
+    case custom(block: PrintableBlock) //  Updated by Pradeep Sakharelia on 15/05/19
     
     public func data(using encoding: String.Encoding) -> Data {
         switch self {
@@ -36,10 +37,11 @@ public enum Block: PrintableBlock {
             return TextBlock.kv(k: key, v: value).data(using: encoding)
         case .dividing:
             return DividingBlock.default.data(using: encoding)
-        case .image(let img, let width):
-            return ImageBlock(img, maxWidth: width).data(using: encoding)
+        case .image(let img,let attributes): //  Updated by Pradeep Sakharelia on 15/05/19
+            return ImageBlock(img, attributes: attributes).data(using: encoding)
         case .custom(let b):
             return b.data(using: encoding)
         }
     }
 }
+
