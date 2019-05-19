@@ -37,11 +37,12 @@ public enum Block: PrintableBlock {
             return TextBlock.kv(k: key, v: value).data(using: encoding)
         case .dividing:
             return DividingBlock.default.data(using: encoding)
-        case .image(let img,let attributes): //  Updated by Pradeep Sakharelia on 15/05/19
+        case .image(let img, let attributes): //  Updated by Pradeep Sakharelia on 15/05/19
             return ImageBlock(img, attributes: attributes).data(using: encoding)
         case .custom(let b):
             return b.data(using: encoding)
         }
     }
 }
+
 
