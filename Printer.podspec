@@ -117,7 +117,7 @@ Pod::Spec.new do |s|
   #
 
   s.framework  = "CoreBluetooth"
-  s.swift_version = '4.2'
+  s.swift_version = '5.0'
   # s.frameworks = "SomeFramework", "AnotherFramework"
 
   # s.library   = "iconv"
