@@ -69,8 +69,6 @@
 			isa = PBXGroup;
 			children = (
 				0ADD82C51DF9495100B2F416 /* PrinterTableViewController.swift */,
-				0A7713141DF907D50009867F /* CentralManagerDelegate.swift */,
-				0ADD82C71DF95EBD00B2F416 /* PeripheralDelegate.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -95,6 +93,8 @@
 			isa = PBXGroup;
 			children = (
 				0A7713121DF905E20009867F /* PrinterManager.swift */,
+				0A7713141DF907D50009867F /* CentralManagerDelegate.swift */,
+				0ADD82C71DF95EBD00B2F416 /* PeripheralDelegate.swift */,
 				0ADD82D81DFE75EC00B2F416 /* PrinterError.swift */,
 				0A06FC11225D9F4A00D65272 /* UI */,
 				0A06FC0A225D913200D65272 /* Blocks */,

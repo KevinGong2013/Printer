@@ -85,18 +85,18 @@ public extension PrinterManager {
 
 public class PrinterManager {
 
-    let queue = DispatchQueue(label: "com.kevin.gong.printer")
+    private let queue = DispatchQueue(label: "com.kevin.gong.printer")
 
-    let centralManager: CBCentralManager
+    private let centralManager: CBCentralManager
 
-    let centralManagerDelegate = CentralManagerDelegate(PrinterManager.specifiedServices)
-    let peripheralDelegate = PeripheralDelegate(PrinterManager.specifiedServices, characteristics: PrinterManager.specifiedCharacteristics)
+    private let centralManagerDelegate = CentralManagerDelegate(PrinterManager.specifiedServices)
+    private let peripheralDelegate = PeripheralDelegate(PrinterManager.specifiedServices, characteristics: PrinterManager.specifiedCharacteristics)
 
     weak var delegate: PrinterManagerDelegate?
 
     var errorReport: ((PError) -> ())?
 
-    var connectTimer: Timer?
+    private var connectTimer: Timer?
 
     public var nearbyPrinters: [Printer] {
         return centralManagerDelegate.discoveredPeripherals.values.map { Printer($0) }
