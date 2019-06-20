@@ -20,8 +20,8 @@ public enum Block: PrintableBlock {
     case text(TextBlock)
     case kv(key: String, value: String)
     case dividing
-    case image(UIImage, attributes: [Attribute]?)
-    case custom(block: PrintableBlock) //  Updated by Pradeep Sakharelia on 15/05/19
+    case image(UIImage, attributes: [Attribute]?) //  Updated by Pradeep Sakharelia on 15/05/19
+    case custom(block: PrintableBlock)
     
     public func data(using encoding: String.Encoding) -> Data {
         switch self {

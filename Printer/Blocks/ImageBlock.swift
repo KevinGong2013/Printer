@@ -26,7 +26,7 @@ public struct ImageBlock: PrintableBlock {
         let height = Int(img.size.height)
         
         if let attrs = attributes {
-            result.append(Data(bytes: attrs.flatMap { $0.attribute }))
+            result.append(Data(attrs.flatMap { $0.attribute }))
         }
         
         // convert to gray image

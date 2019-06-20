@@ -69,6 +69,7 @@ extension ESC_POSCommand {
     static func justification(_ n: UInt8) -> ESC_POSCommand {
         return ESC_POSCommand([27, 97, n])
     }
+    
     // Selects the character font and styles (emphasize, double-height, double-width, and underline) together.
     static func print(modes n: UInt8) -> ESC_POSCommand {
         return ESC_POSCommand([27, 33, n])
@@ -85,7 +86,6 @@ extension ESC_POSCommand {
         case doubleHeight = 50
         case doubleSize = 51
     }
-    
     
     // modified Pradeep Sakharelia 18/05/2019
     static func beginPrintImage(m: ImageSize = .normal, xl: UInt8, xH: UInt8, yl: UInt8, yH: UInt8) -> ESC_POSCommand {
