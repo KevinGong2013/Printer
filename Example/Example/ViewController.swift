@@ -10,6 +10,13 @@
 import UIKit
 import Printer
 
+private extension TextBlock {
+
+    static func plainText(_ content: String) -> TextBlock {
+        return TextBlock(content: content, predefined: .light)
+    }
+}
+
 class ViewController: UIViewController {
 
     let pm = PrinterManager()
@@ -20,16 +27,44 @@ class ViewController: UIViewController {
 
     @IBAction func touchPrint(sender: UIButton) {
 
-        let image = UIImage(named: "demo")!
+        guard let image = UIImage(named: "demo") else {
+            return
+        }
 
         if pm.canPrint {
 
             var receipt = Receipt(
+                .title("Restaurant"),
+                .blank,
+                .text(.init("Palo Alto Californlia 94301")),
+                .text(.init("378-0987893742")),
+                .blank,
+                .text(.init(content: Date().description, predefined: .alignment(.center))),
+                .blank,
+                .kv(key: "Merchant ID:", value: "iceu1390"),
+                .kv(key: "Terminal ID:", value: "29383"),
+                .blank,
+                .kv(key: "Transaction ID:", value: "0x000321"),
+                .text(.plainText("PURCHASE")),
+
+                .blank,
+                .kv(key: "Sub Total", value: "USD$ 25.09"),
+                .kv(key: "Tip", value: "3.78"),
                 .dividing,
-                .qr("Icey.Liao"),
-                .dividing,
-                .image(image, attributes: [ImageBlock.PredefinedAttribute.alignment(.center)])
-                //  Updated by Pradeep Sakharelia on 15/05/19
+                .kv(key: "Total", value: "USD$ 28.87"),
+                .blank,
+                .blank,
+                .blank,
+                .text(.init(content: "Thanks for supporting", predefined: .alignment(.center))),
+                .text(.init(content: "local bussiness!", predefined: .alignment(.center))),
+                .blank,
+                .text(.init(content: "THANK YOU", predefined: .bold, .alignment(.center))),
+                .blank,
+                .blank,
+                .blank,
+                .qr("https://www.yuxiaor.com"),
+                .blank,
+                .blank
             )
             
             receipt.feedLinesOnTail = 2
