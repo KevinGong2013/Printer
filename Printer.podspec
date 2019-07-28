@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "Printer"
-  s.version      = "3.0.7"
+  s.version      = "4.0.0"
   s.summary      = "Swift ticket printer framework for ESC/POS-compatible thermal printers."
 
   s.homepage     = "https://github.com/KevinGong2013/Printer"
