@@ -9,7 +9,6 @@
 
 import UIKit
 import Printer
-import Ticket
 
 class ViewController: UIViewController {
 

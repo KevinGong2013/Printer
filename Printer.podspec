@@ -21,22 +21,17 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "9.0"
   s.ios.deployment_target = "9.0"
 
-  s.source       = { :git => "https://github.com/KevinGong2013/Printer.git", :tag => s.version.to_s }
+  s.source       = { :git => "https://github.com/KevinGong2013/Printer.git", :branch => 'develop' }
 
   s.framework  = "CoreBluetooth"
   s.swift_version = '5.0'
 
-  s.subspec 'Printer' do |Printer|
-
-    core.dependency 'Ticket'
-    core.source_files = "Printer/**/*.swift"
-
+  s.subspec 'Ticket' do |ticket|
+    ticket.source_files = "Source/Ticket/**/*.swfit"
   end
 
-  s.subspec 'Ticket' do |Printer|
-
-    core.dependency 'Ticket'
-    core.source_files = "Ticket/Source"
-    
+  s.subspec 'Hardware' do |hw|
+    hw.source_files = "Source/Hardware/**/*.swift"
   end
+  
 end
