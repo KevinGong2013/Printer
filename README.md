@@ -25,6 +25,7 @@ pod 'Printer'
 
 #### Subspecs
 There are 3 subspecs available now: 
+
 | Subspec | Description |
 |---|---|
 | Ticket | Just crate esc/pos data block |
