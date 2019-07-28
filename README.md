@@ -1,5 +1,5 @@
 
-# ESC/POS Print Driver for Swift
+# ESC/POS Printer Driver for Swift
 
 # Description
 Swift ticket printer framework for ESC/POS-compatible thermal printers
