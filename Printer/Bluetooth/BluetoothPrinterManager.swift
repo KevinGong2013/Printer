@@ -15,14 +15,9 @@ public extension String {
     }
 }
 
-public protocol Printable {
-    
-    func data(using encoding: String.Encoding) -> [Data]
-}
-
 private extension CBPeripheral {
 
-    var printerState: Printer.State {
+    var printerState: BluetoothPrinter.State {
         switch state {
         case .disconnected:
             return .disconnected
@@ -38,7 +33,7 @@ private extension CBPeripheral {
     }
 }
 
-public struct Printer {
+public struct BluetoothPrinter {
 
     enum State {
 
@@ -67,8 +62,8 @@ public struct Printer {
 
 public enum NearbyPrinterChange {
 
-    case add(Printer)
-    case update(Printer)
+    case add(BluetoothPrinter)
+    case update(BluetoothPrinter)
     case remove(UUID) // identifier
 }
 
@@ -77,20 +72,20 @@ public protocol PrinterManagerDelegate: NSObjectProtocol {
     func nearbyPrinterDidChange(_ change: NearbyPrinterChange)
 }
 
-public extension PrinterManager {
+public extension BluetoothPrinterManager {
 
     static var specifiedServices: Set<String> = ["E7810A71-73AE-499D-8C15-FAA9AEF0C3F2"]
     static var specifiedCharacteristics: Set<String>?
 }
 
-public class PrinterManager {
+public class BluetoothPrinterManager {
 
     private let queue = DispatchQueue(label: "com.kevin.gong.printer")
 
     private let centralManager: CBCentralManager
 
-    private let centralManagerDelegate = CentralManagerDelegate(PrinterManager.specifiedServices)
-    private let peripheralDelegate = PeripheralDelegate(PrinterManager.specifiedServices, characteristics: PrinterManager.specifiedCharacteristics)
+    private let centralManagerDelegate = BluetoothCentralManagerDelegate(BluetoothPrinterManager.specifiedServices)
+    private let peripheralDelegate = BluetoothPeripheralDelegate(BluetoothPrinterManager.specifiedServices, characteristics: BluetoothPrinterManager.specifiedCharacteristics)
 
     weak var delegate: PrinterManagerDelegate?
 
@@ -98,8 +93,8 @@ public class PrinterManager {
 
     private var connectTimer: Timer?
 
-    public var nearbyPrinters: [Printer] {
-        return centralManagerDelegate.discoveredPeripherals.values.map { Printer($0) }
+    public var nearbyPrinters: [BluetoothPrinter] {
+        return centralManagerDelegate.discoveredPeripherals.values.map { BluetoothPrinter($0) }
     }
 
     public init(delegate: PrinterManagerDelegate? = nil) {
@@ -118,21 +113,21 @@ public class PrinterManager {
             self?.connectTimer?.invalidate()
             self?.connectTimer = nil
 
-            self?.nearbyPrinterDidChange(.update(Printer($0)))
+            self?.nearbyPrinterDidChange(.update(BluetoothPrinter($0)))
         }
 
         centralManagerDelegate.peripheralDelegate = peripheralDelegate
 
         centralManagerDelegate.addedPeripherals = { [weak self] in
 
-            guard let printer = (self?.centralManagerDelegate[$0].map { Printer($0) }) else {
+            guard let printer = (self?.centralManagerDelegate[$0].map { BluetoothPrinter($0) }) else {
                 return
             }
             self?.nearbyPrinterDidChange(.add(printer))
         }
 
         centralManagerDelegate.updatedPeripherals = { [weak self] in
-            guard let printer = (self?.centralManagerDelegate[$0].map { Printer($0) }) else {
+            guard let printer = (self?.centralManagerDelegate[$0].map { BluetoothPrinter($0) }) else {
                 return
             }
             self?.nearbyPrinterDidChange(.update(printer))
@@ -162,7 +157,7 @@ public class PrinterManager {
                 return
             }
 
-            self.nearbyPrinterDidChange(.update(Printer(peripheral)))
+            self.nearbyPrinterDidChange(.update(BluetoothPrinter(peripheral)))
             self.peripheralDelegate.disconnect(peripheral)
         }
 
@@ -202,7 +197,7 @@ public class PrinterManager {
             return .deviceNotReady
         }
 
-        let serviceUUIDs = PrinterManager.specifiedServices.map { CBUUID(string: $0) }
+        let serviceUUIDs = BluetoothPrinterManager.specifiedServices.map { CBUUID(string: $0) }
         centralManager.scanForPeripherals(withServices: serviceUUIDs, options: nil)
 
         return nil
@@ -213,7 +208,7 @@ public class PrinterManager {
         centralManager.stopScan()
     }
 
-    public func connect(_ printer: Printer) {
+    public func connect(_ printer: BluetoothPrinter) {
 
         guard let per = centralManagerDelegate[printer.identifier] else {
 
@@ -239,7 +234,7 @@ public class PrinterManager {
             return
         }
 
-        var printer = Printer(p)
+        var printer = BluetoothPrinter(p)
         printer.state = .disconnected
         nearbyPrinterDidChange(.update(printer))
 
@@ -249,7 +244,7 @@ public class PrinterManager {
         connectTimer = nil
     }
 
-    public func disconnect(_ printer: Printer) {
+    public func disconnect(_ printer: BluetoothPrinter) {
 
         guard let per = centralManagerDelegate[printer.identifier] else {
             return
@@ -264,7 +259,7 @@ public class PrinterManager {
 
     public func disconnectAllPrinter() {
 
-        let serviceUUIDs = PrinterManager.specifiedServices.map { CBUUID(string: $0) }
+        let serviceUUIDs = BluetoothPrinterManager.specifiedServices.map { CBUUID(string: $0) }
         
         centralManager.retrieveConnectedPeripherals(withServices: serviceUUIDs).forEach {
             centralManager.cancelPeripheralConnection($0)

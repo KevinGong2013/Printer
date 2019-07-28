@@ -9,78 +9,62 @@
 
 import UIKit
 import Printer
-
-private extension TextBlock {
-
-    static func plainText(_ content: String) -> TextBlock {
-        return TextBlock(content: content, predefined: .light)
-    }
-}
+import Ticket
 
 class ViewController: UIViewController {
 
-    let pm = PrinterManager()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-
+    private let bluetoothPrinterManager = BluetoothPrinterManager()
+    private let dummyPrinter = DummyPrinter()
+ 
     @IBAction func touchPrint(sender: UIButton) {
 
         guard let image = UIImage(named: "demo") else {
             return
         }
 
-        if pm.canPrint {
-
-            var receipt = Receipt(
-                .title("Restaurant"),
-                .blank,
-                .text(.init("Palo Alto Californlia 94301")),
-                .text(.init("378-0987893742")),
-                .blank,
-                .text(.init(content: Date().description, predefined: .alignment(.center))),
-                .blank,
-                .kv(key: "Merchant ID:", value: "iceu1390"),
-                .kv(key: "Terminal ID:", value: "29383"),
-                .blank,
-                .kv(key: "Transaction ID:", value: "0x000321"),
-                .text(.plainText("PURCHASE")),
-
-                .blank,
-                .kv(key: "Sub Total", value: "USD$ 25.09"),
-                .kv(key: "Tip", value: "3.78"),
-                .dividing,
-                .kv(key: "Total", value: "USD$ 28.87"),
-                .blank,
-                .blank,
-                .blank,
-                .text(.init(content: "Thanks for supporting", predefined: .alignment(.center))),
-                .text(.init(content: "local bussiness!", predefined: .alignment(.center))),
-                .blank,
-                .text(.init(content: "THANK YOU", predefined: .bold, .alignment(.center))),
-                .blank,
-                .blank,
-                .blank,
-                .qr("https://www.yuxiaor.com"),
-                .blank,
-                .blank
-            )
+        var ticket = Ticket(
+            .title("Restaurant"),
+            .blank,
+            .plainText("Palo Alto Californlia 94301"),
+            .plainText("378-0987893742"),
+            .blank,
+            .image(image, attributes: .alignment(.center)),
+            .text(.init(content: Date().description, predefined: .alignment(.center))),
+            .blank,
+            .kv(k: "Merchant ID:", v: "iceu1390"),
+            .kv(k: "Terminal ID:", v: "29383"),
+            .blank,
+            .kv(k: "Transaction ID:", v: "0x000321"),
+            .plainText("PURCHASE"),
+            .blank,
+            .kv(k: "Sub Total", v: "USD$ 25.09"),
+            .kv(k: "Tip", v: "3.78"),
+            .dividing,
+            .kv(k: "Total", v: "USD$ 28.87"),
+            .blank(3),
+            Block(Text(content: "Thanks for supporting", predefined: .alignment(.center))),
+            .blank,
             
-            receipt.feedLinesOnTail = 2
-            receipt.feedPointsPerLine = 60
-            
-            pm.print(receipt)
-        } else {
-
-            performSegue(withIdentifier: "ShowSelectPrintVC", sender: nil)
+            .text(.init(content: "THANK YOU", predefined: .bold, .alignment(.center))),
+            .blank(3),
+            .qr("https://www.yuxiaor.com")
+        )
+        
+        ticket.feedLinesOnHead = 2
+        ticket.feedLinesOnTail = 3
+        
+        if bluetoothPrinterManager.canPrint {
+            bluetoothPrinterManager.print(ticket)
         }
+        
+        dummyPrinter.print(ticket)
+        
     }
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vc = segue.destination as? PrinterTableViewController {
-            vc.sectionTitle = "Choose Printer"
-            vc.printerManager = pm
+        if let vc = segue.destination as? BluetoothPrinterSelectTableViewController {
+            vc.sectionTitle = "Choose Bluetooth Printer"
+            vc.printerManager = bluetoothPrinterManager
         }
     }
 }

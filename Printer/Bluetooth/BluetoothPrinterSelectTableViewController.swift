@@ -8,13 +8,13 @@
 
 import UIKit
 
-public class PrinterTableViewController: UITableViewController {
+public class BluetoothPrinterSelectTableViewController: UITableViewController {
 
-    public weak var printerManager: PrinterManager?
+    public weak var printerManager: BluetoothPrinterManager?
 
     public var sectionTitle: String? // convenience property
     
-    var dataSource = [Printer]()
+    var dataSource = [BluetoothPrinter]()
 
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -82,7 +82,7 @@ public class PrinterTableViewController: UITableViewController {
 
 }
 
-extension PrinterTableViewController: PrinterManagerDelegate {
+extension BluetoothPrinterSelectTableViewController: PrinterManagerDelegate {
 
     public func nearbyPrinterDidChange(_ change: NearbyPrinterChange) {
 

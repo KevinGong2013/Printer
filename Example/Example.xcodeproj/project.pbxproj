@@ -38,6 +38,27 @@
 			remoteGlobalIDString = 0A7712F71DF905AE0009867F;
 			remoteInfo = Printer;
 		};
+		5BD9B5DD22EE0CBA00174ABA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A7713481DF915AA0009867F /* Printer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5B30590C22EE08AC00B175D9;
+			remoteInfo = Ticket;
+		};
+		5BD9B5DF22EE0CBA00174ABA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A7713481DF915AA0009867F /* Printer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5B30591422EE08AC00B175D9;
+			remoteInfo = TicketTests;
+		};
+		5BD9B5E122EE0CBE00174ABA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A7713481DF915AA0009867F /* Printer.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5B30590B22EE08AC00B175D9;
+			remoteInfo = Ticket;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -111,6 +132,8 @@
 			isa = PBXGroup;
 			children = (
 				0A77134E1DF915AA0009867F /* Printer.framework */,
+				5BD9B5DE22EE0CBA00174ABA /* Ticket.framework */,
+				5BD9B5E022EE0CBA00174ABA /* TicketTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -130,6 +153,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				5BD9B5E222EE0CBE00174ABA /* PBXTargetDependency */,
 				0A7713571DF915C60009867F /* PBXTargetDependency */,
 				0A77135B1DF915E00009867F /* PBXTargetDependency */,
 			);
@@ -188,6 +212,20 @@
 			remoteRef = 0A77134D1DF915AA0009867F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		5BD9B5DE22EE0CBA00174ABA /* Ticket.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Ticket.framework;
+			remoteRef = 5BD9B5DD22EE0CBA00174ABA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5BD9B5E022EE0CBA00174ABA /* TicketTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = TicketTests.xctest;
+			remoteRef = 5BD9B5DF22EE0CBA00174ABA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -225,6 +263,11 @@
 			isa = PBXTargetDependency;
 			name = Printer;
 			targetProxy = 0A77135A1DF915E00009867F /* PBXContainerItemProxy */;
+		};
+		5BD9B5E222EE0CBE00174ABA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Ticket;
+			targetProxy = 5BD9B5E122EE0CBE00174ABA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

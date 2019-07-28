@@ -1,14 +1,14 @@
 //
 //  QRCodeBlock.swift
-//  Printer
+//  Ticket
 //
-//  Created by gix on 2019/4/10.
-//  Copyright © 2019 Kevin. All rights reserved.
+//  Created by gix on 2019/6/30.
+//  Copyright © 2019 gix. All rights reserved.
 //
 
 import Foundation
 
-struct QRBlock: PrintableBlock {
+struct QRCode: BlockDataProvider {
     
     let content: String
     

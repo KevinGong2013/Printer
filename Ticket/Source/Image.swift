@@ -1,57 +1,42 @@
 //
-//  ImageBlock.swift
-//  Printer
+//  Image.swift
+//  Ticket
 //
-//  Created by Pradeep Sakharelia on 18/05/2019.
-//  Copyright © 2019 Quick Key Business Solutions. All rights reserved.
+//  Created by gix on 2019/6/30.
+//  Copyright © 2019 gix. All rights reserved.
 //
 
 import Foundation
 
-public struct ImageBlock: PrintableBlock {
+public protocol Image {
+    var ticketImage: CGImage { get }
+}
+
+extension Image {
     
-    let image: UIImage
-    let attributes: [Attribute]?
-    
-    public init(_ image: UIImage, attributes: [Attribute]? = nil) {
-        self.image = image
-        self.attributes = attributes
-    }
-    
-    public func data(using encoding: String.Encoding) -> Data {
-        var result = Data()
+    var ticketData: Data? {
         
-        let img = self.image
-        let width = Int(img.size.width)
-        let height = Int(img.size.height)
+        let width = ticketImage.width
+        let height = ticketImage.height
         
-        if let attrs = attributes {
-            result.append(Data(attrs.flatMap { $0.attribute }))
-        }
-        
-        // convert to gray image
-        if let grayData = convertImage(toGray: img) {
+        if let grayData = convertImageToGray(ticketImage) {
             // get binary data
             if let binaryImageData = format_K_threshold(orgpixels: grayData, xsize: width, ysize: height) {
                 // each line prepare for printer
                 let data = eachLinePixToCmd(src: binaryImageData, nWidth: width, nHeight: height, nMode: 0)
-                result.append(Data(bytes: data, count: height * (8 + width / 8)))
+                return Data(bytes: data, count: height * (8 + width / 8))
             }
         }
-        
-        return result
+        return nil
     }
     
-    func convertImage(toGray i: UIImage?) -> [UInt8]? {
+    private func convertImageToGray(_ inputCGImage: CGImage) -> [UInt8]? {
+        
         let kRed: Int = 1
         let kGreen: Int = 2
         let kBlue: Int = 4
         let colors: Int = kGreen | kBlue | kRed
         
-        guard let inputCGImage = i?.cgImage else {
-            print("Unable to get cgImage")
-            return nil
-        }
         let colorSpace       = CGColorSpaceCreateDeviceRGB()
         let width            = inputCGImage.width
         let height           = inputCGImage.height
@@ -108,7 +93,7 @@ public struct ImageBlock: PrintableBlock {
         return m_imageData
     }
     
-    func format_K_threshold(orgpixels: [UInt8], xsize: Int, ysize: Int) -> [UInt8]? {
+    private func format_K_threshold(orgpixels: [UInt8], xsize: Int, ysize: Int) -> [UInt8]? {
         var despixels = [UInt8]()
         var graytotal: Int = 0
         var k: Int = 0
@@ -139,7 +124,7 @@ public struct ImageBlock: PrintableBlock {
         return despixels
     }
     
-    func eachLinePixToCmd(src: [UInt8], nWidth: Int, nHeight: Int, nMode: Int) -> [UInt8] {
+    private func eachLinePixToCmd(src: [UInt8], nWidth: Int, nHeight: Int, nMode: Int) -> [UInt8] {
         var data = [[UInt8]]()
         
         let p0 = [0, 0x80]
@@ -167,65 +152,82 @@ public struct ImageBlock: PrintableBlock {
         return rdata
     }
     
-    struct RGBA32: Equatable {
-        var color: UInt32
-        
-        var redComponent: UInt8 {
-            return UInt8((color >> 24) & 255)
-        }
-        
-        var greenComponent: UInt8 {
-            return UInt8((color >> 16) & 255)
-        }
-        
-        var blueComponent: UInt8 {
-            return UInt8((color >> 8) & 255)
-        }
-        
-        var alphaComponent: UInt8 {
-            return UInt8((color >> 0) & 255)
-        }
-        
-        init(red: UInt8, green: UInt8, blue: UInt8, alpha: UInt8) {
-            let red   = UInt32(red)
-            let green = UInt32(green)
-            let blue  = UInt32(blue)
-            let alpha = UInt32(alpha)
-            color = (red << 24) | (green << 16) | (blue << 8) | (alpha << 0)
-        }
-        
-        static let red     = RGBA32(red: 255, green: 0,   blue: 0,   alpha: 255)
-        static let green   = RGBA32(red: 0,   green: 255, blue: 0,   alpha: 255)
-        static let blue    = RGBA32(red: 0,   green: 0,   blue: 255, alpha: 255)
-        static let white   = RGBA32(red: 255, green: 255, blue: 255, alpha: 255)
-        static let black   = RGBA32(red: 0,   green: 0,   blue: 0,   alpha: 255)
-        static let magenta = RGBA32(red: 255, green: 0,   blue: 255, alpha: 255)
-        static let yellow  = RGBA32(red: 255, green: 255, blue: 0,   alpha: 255)
-        static let cyan    = RGBA32(red: 0,   green: 255, blue: 255, alpha: 255)
-        static let clear   = RGBA32(red: 0,   green: 0,   blue: 0,   alpha: 0)
-        
-        static let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue | CGBitmapInfo.byteOrder32Little.rawValue
-        
-        static func ==(lhs: RGBA32, rhs: RGBA32) -> Bool {
-            return lhs.color == rhs.color
-        }
-    }
-    
-    
 }
 
-public extension ImageBlock {
+private struct RGBA32: Equatable {
+    var color: UInt32
     
-    enum PredefinedAttribute: Attribute {
-        
-        case alignment(NSTextAlignment)
-        
-        public var attribute: [UInt8] {
-            switch self {
-            case let .alignment(v):
-                return ESC_POSCommand.justification(v == .left ? 0 : v == .center ? 1 : 2).rawValue
-            }
-        }
+    var redComponent: UInt8 {
+        return UInt8((color >> 24) & 255)
     }
     
+    var greenComponent: UInt8 {
+        return UInt8((color >> 16) & 255)
+    }
+    
+    var blueComponent: UInt8 {
+        return UInt8((color >> 8) & 255)
+    }
+    
+    var alphaComponent: UInt8 {
+        return UInt8((color >> 0) & 255)
+    }
+    
+    init(red: UInt8, green: UInt8, blue: UInt8, alpha: UInt8) {
+        let red   = UInt32(red)
+        let green = UInt32(green)
+        let blue  = UInt32(blue)
+        let alpha = UInt32(alpha)
+        color = (red << 24) | (green << 16) | (blue << 8) | (alpha << 0)
+    }
+    
+    static let red     = RGBA32(red: 255, green: 0,   blue: 0,   alpha: 255)
+    static let green   = RGBA32(red: 0,   green: 255, blue: 0,   alpha: 255)
+    static let blue    = RGBA32(red: 0,   green: 0,   blue: 255, alpha: 255)
+    static let white   = RGBA32(red: 255, green: 255, blue: 255, alpha: 255)
+    static let black   = RGBA32(red: 0,   green: 0,   blue: 0,   alpha: 255)
+    static let magenta = RGBA32(red: 255, green: 0,   blue: 255, alpha: 255)
+    static let yellow  = RGBA32(red: 255, green: 255, blue: 0,   alpha: 255)
+    static let cyan    = RGBA32(red: 0,   green: 255, blue: 255, alpha: 255)
+    static let clear   = RGBA32(red: 0,   green: 0,   blue: 0,   alpha: 0)
+    
+    static let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue | CGBitmapInfo.byteOrder32Little.rawValue
+    
+    static func ==(lhs: RGBA32, rhs: RGBA32) -> Bool {
+        return lhs.color == rhs.color
+    }
 }
+
+//
+extension UIImage: Image {
+    public var ticketImage: CGImage {
+        guard let image = cgImage else {
+            fatalError("can't get cgimage ref.")
+        }
+        return image
+    }
+}
+
+/// convert UIView to image
+/// can use webview print html.
+extension UIView: Image {
+    public var ticketImage: CGImage {
+        if #available(iOS 10.0, *) {
+            let renderer = UIGraphicsImageRenderer(bounds: bounds)
+            return renderer.image { rendererContext in
+                layer.render(in: rendererContext.cgContext)
+            }.ticketImage
+        } else {
+            UIGraphicsBeginImageContext(frame.size)
+            defer {
+                UIGraphicsEndImageContext()
+            }
+            layer.render(in: UIGraphicsGetCurrentContext()!)
+            guard let image = UIGraphicsGetImageFromCurrentImageContext() else {
+                fatalError("UIGraphics Get Image Failed.")
+            }
+            return image.ticketImage
+        }
+    }
+}
+

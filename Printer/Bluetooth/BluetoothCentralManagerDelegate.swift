@@ -9,7 +9,7 @@
 import Foundation
 import CoreBluetooth
 
-class CentralManagerDelegate: NSObject, CBCentralManagerDelegate {
+class BluetoothCentralManagerDelegate: NSObject, CBCentralManagerDelegate {
 
     struct UserDefaultKey {
 
@@ -18,7 +18,7 @@ class CentralManagerDelegate: NSObject, CBCentralManagerDelegate {
 
     private var services: Set<String>!
 
-    var peripheralDelegate: PeripheralDelegate?
+    var peripheralDelegate: BluetoothPeripheralDelegate?
 
     open var centralManagerDidUpdateState: ((CBCentralManager) -> ())?
     open var centralManagerDidDiscoverPeripheralWithAdvertisementDataAndRSSI: ((CBCentralManager, CBPeripheral, [String : Any], NSNumber) -> ())?
