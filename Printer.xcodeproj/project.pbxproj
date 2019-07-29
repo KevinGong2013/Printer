@@ -146,6 +146,7 @@
 		5BD9B5F822EE1B4900174ABA /* Ticket */ = {
 			isa = PBXGroup;
 			children = (
+				5BD9B5FF22EE1B4900174ABA /* Ticket.swift */,
 				5BD9B61622EE1B9C00174ABA /* Block */,
 				5BD9B61422EE1B8800174ABA /* Util */,
 				5BD9B61322EE1B7A00174ABA /* Command */,
@@ -176,7 +177,6 @@
 				5BD9B5FB22EE1B4900174ABA /* Blank.swift */,
 				5BD9B5F922EE1B4900174ABA /* Dividing.swift */,
 				5BD9B5FC22EE1B4900174ABA /* TicketImage.swift */,
-				5BD9B5FF22EE1B4900174ABA /* Ticket.swift */,
 				5BD9B60022EE1B4900174ABA /* QRCode.swift */,
 				5BD9B60122EE1B4900174ABA /* Text.swift */,
 			);
