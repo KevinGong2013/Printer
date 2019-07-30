@@ -23,19 +23,6 @@ Printer is available on CocoaPods. Simply add the following line to your podfile
 pod 'Printer'
 ```
 
-#### Subspecs
-There are 3 subspecs available now: 
-
-| Subspec | Description |
-|---|---|
-| Ticket | Just crate esc/pos data block |
-| Hardware-Blutooth | connect bluetooth printer |
-| Hardware-Blutooth | connect network printer [TODO] |
-
-```ruby
-pod 'Printer', :subspecs => ['Ticket', 'Hardware-Blutooth']
-```
-
 ### Carthage
 
 ```
@@ -48,7 +35,6 @@ github "KevinGong2013/Printer"
 ```swift
 import Printer
 
-extension Ticket: ESCPOSCommandsCreator {}
 ```
 
 ### Create ESC/POS Ticket

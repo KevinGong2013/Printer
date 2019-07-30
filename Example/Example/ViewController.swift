@@ -10,8 +10,6 @@
 import UIKit
 import Printer
 
-extension Ticket: ESCPOSCommandsCreator {}
-
 class ViewController: UIViewController {
 
     private let bluetoothPrinterManager = BluetoothPrinterManager()

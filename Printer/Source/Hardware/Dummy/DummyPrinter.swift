@@ -8,7 +8,7 @@
 
 import Foundation
 
-public final class DummyPrinter {
+public class DummyPrinter {
     
     public init() {}
     

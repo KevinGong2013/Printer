@@ -12,3 +12,5 @@ public protocol ESCPOSCommandsCreator {
     
     func data(using encoding: String.Encoding) -> [Data]
 }
+
+extension Ticket: ESCPOSCommandsCreator { }
