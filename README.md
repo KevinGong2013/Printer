@@ -7,7 +7,7 @@ Swift ticket printer framework for ESC/POS-compatible thermal printers
 
 ### Features
 * Supports connect bluetooth printer.
-* Crate printable ticket easily.
+* Create printable ticket easily.
 
 ## Requirements
 * iOS 9.0+
