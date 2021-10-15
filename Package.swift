@@ -21,10 +21,7 @@ let package = Package(
     targets:[
         .target(
             name: "Printer",
-            exclude:["Info.plist"],
-            linkerSettings: [.linkedFramework("UIKit",
-                                                          .when(platforms: [.iOS]))
-                             ]
+            exclude:["Info.plist"]
         ),
         .testTarget(
             name: "PrinterTests",

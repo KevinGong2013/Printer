@@ -5,7 +5,7 @@
 //  Copyright © 2019 Quick Key Business Solutions. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public struct TicketImage: BlockDataProvider {
     
