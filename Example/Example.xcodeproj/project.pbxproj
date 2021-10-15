@@ -12,54 +12,8 @@
 		0A7713281DF9140C0009867F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A7713261DF9140C0009867F /* Main.storyboard */; };
 		0A77132A1DF9140C0009867F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A7713291DF9140C0009867F /* Assets.xcassets */; };
 		0A77132D1DF9140C0009867F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A77132B1DF9140C0009867F /* LaunchScreen.storyboard */; };
-		0A7713581DF915E00009867F /* Printer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A77134E1DF915AA0009867F /* Printer.framework */; };
-		0A7713591DF915E00009867F /* Printer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A77134E1DF915AA0009867F /* Printer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2962722BCEEC5D15A635B6C8 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D64726DBB550D9C0443D18D2 /* Pods_Example.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		0A77134D1DF915AA0009867F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0A7713481DF915AA0009867F /* Printer.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0A7712F81DF905AE0009867F;
-			remoteInfo = Printer;
-		};
-		0A7713561DF915C60009867F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0A7713481DF915AA0009867F /* Printer.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0A7712F71DF905AE0009867F;
-			remoteInfo = Printer;
-		};
-		0A77135A1DF915E00009867F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0A7713481DF915AA0009867F /* Printer.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0A7712F71DF905AE0009867F;
-			remoteInfo = Printer;
-		};
-		5BD9B5DD22EE0CBA00174ABA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0A7713481DF915AA0009867F /* Printer.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5B30590C22EE08AC00B175D9;
-			remoteInfo = Ticket;
-		};
-		5BD9B5DF22EE0CBA00174ABA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0A7713481DF915AA0009867F /* Printer.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5B30591422EE08AC00B175D9;
-			remoteInfo = TicketTests;
-		};
-		5BD9B5E122EE0CBE00174ABA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0A7713481DF915AA0009867F /* Printer.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 5B30590B22EE08AC00B175D9;
-			remoteInfo = Ticket;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		0A77135C1DF915E00009867F /* Embed Frameworks */ = {
@@ -68,7 +22,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0A7713591DF915E00009867F /* Printer.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -83,7 +36,9 @@
 		0A7713291DF9140C0009867F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A77132C1DF9140C0009867F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0A77132E1DF9140C0009867F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0A7713481DF915AA0009867F /* Printer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Printer.xcodeproj; path = ../Printer.xcodeproj; sourceTree = "<group>"; };
+		5FE2DF173FC52C0A40D01949 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
+		6645EC7B07DA71DAB12A02CF /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
+		D64726DBB550D9C0443D18D2 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,7 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A7713581DF915E00009867F /* Printer.framework in Frameworks */,
+				2962722BCEEC5D15A635B6C8 /* Pods_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,7 +58,8 @@
 			children = (
 				0A7713211DF9140C0009867F /* Example */,
 				0A7713201DF9140C0009867F /* Products */,
-				0A7713481DF915AA0009867F /* Printer.xcodeproj */,
+				E71DF38A36C3A12117AEE222 /* Pods */,
+				80C28828198E25BF3A5038D9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -128,14 +84,22 @@
 			path = Example;
 			sourceTree = "<group>";
 		};
-		0A7713491DF915AA0009867F /* Products */ = {
+		80C28828198E25BF3A5038D9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0A77134E1DF915AA0009867F /* Printer.framework */,
-				5BD9B5DE22EE0CBA00174ABA /* Ticket.framework */,
-				5BD9B5E022EE0CBA00174ABA /* TicketTests.xctest */,
+				D64726DBB550D9C0443D18D2 /* Pods_Example.framework */,
 			);
-			name = Products;
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E71DF38A36C3A12117AEE222 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5FE2DF173FC52C0A40D01949 /* Pods-Example.debug.xcconfig */,
+				6645EC7B07DA71DAB12A02CF /* Pods-Example.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,17 +109,16 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0A7713311DF9140C0009867F /* Build configuration list for PBXNativeTarget "Example" */;
 			buildPhases = (
+				8CE338884D47CB78BAE47203 /* [CP] Check Pods Manifest.lock */,
 				0A77131B1DF9140C0009867F /* Sources */,
 				0A77131C1DF9140C0009867F /* Frameworks */,
 				0A77131D1DF9140C0009867F /* Resources */,
 				0A77135C1DF915E00009867F /* Embed Frameworks */,
+				95151339D137D09ED307F2C6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				5BD9B5E222EE0CBE00174ABA /* PBXTargetDependency */,
-				0A7713571DF915C60009867F /* PBXTargetDependency */,
-				0A77135B1DF915E00009867F /* PBXTargetDependency */,
 			);
 			name = Example;
 			productName = Example;
@@ -191,42 +154,12 @@
 			mainGroup = 0A7713161DF9140C0009867F;
 			productRefGroup = 0A7713201DF9140C0009867F /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 0A7713491DF915AA0009867F /* Products */;
-					ProjectRef = 0A7713481DF915AA0009867F /* Printer.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				0A77131E1DF9140C0009867F /* Example */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		0A77134E1DF915AA0009867F /* Printer.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Printer.framework;
-			remoteRef = 0A77134D1DF915AA0009867F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5BD9B5DE22EE0CBA00174ABA /* Ticket.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Ticket.framework;
-			remoteRef = 5BD9B5DD22EE0CBA00174ABA /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5BD9B5E022EE0CBA00174ABA /* TicketTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = TicketTests.xctest;
-			remoteRef = 5BD9B5DF22EE0CBA00174ABA /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		0A77131D1DF9140C0009867F /* Resources */ = {
@@ -241,6 +174,49 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		8CE338884D47CB78BAE47203 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Example-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		95151339D137D09ED307F2C6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Printer/Printer.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Printer.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0A77131B1DF9140C0009867F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -252,24 +228,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		0A7713571DF915C60009867F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Printer;
-			targetProxy = 0A7713561DF915C60009867F /* PBXContainerItemProxy */;
-		};
-		0A77135B1DF915E00009867F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Printer;
-			targetProxy = 0A77135A1DF915E00009867F /* PBXContainerItemProxy */;
-		};
-		5BD9B5E222EE0CBE00174ABA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Ticket;
-			targetProxy = 5BD9B5E122EE0CBE00174ABA /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		0A7713261DF9140C0009867F /* Main.storyboard */ = {
@@ -406,6 +364,7 @@
 		};
 		0A7713321DF9140C0009867F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5FE2DF173FC52C0A40D01949 /* Pods-Example.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -421,6 +380,7 @@
 		};
 		0A7713331DF9140C0009867F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6645EC7B07DA71DAB12A02CF /* Pods-Example.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
