@@ -29,6 +29,12 @@ pod 'Printer'
 github "KevinGong2013/Printer"
 ```
 
+### Swift Package Manager
+File -> Add Package -> Enter Package URL 
+```
+https://github.com/KevinGong2013/Printer
+```
+
 ## Getting Started
 ### Import
 
@@ -91,3 +97,7 @@ dummyPrinter.print(ticket)
 
 ### Ticket && Blocks
 [TODO]
+
+### Notes
+- Send data to your own Bluetooth Manager is possible
+  

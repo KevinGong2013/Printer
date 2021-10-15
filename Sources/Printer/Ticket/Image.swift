@@ -6,7 +6,7 @@
 //  Copyright © 2019 gix. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public protocol Image {
     var ticketImage: CGImage { get }
