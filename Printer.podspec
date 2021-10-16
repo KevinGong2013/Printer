@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "Printer"
-  s.version      = "4.0.1"
+  s.version      = "4.1.0"
   s.summary      = "Swift ticket printer framework for ESC/POS-compatible thermal printers."
 
   s.homepage     = "https://github.com/KevinGong2013/Printer"
@@ -26,6 +26,6 @@ Pod::Spec.new do |s|
   s.framework  = "CoreBluetooth"
   s.swift_version = '5.0'
 
-  s.source_files = "Printer/**/*.{swift, h}"
+  s.source_files = "Sources/Printer/**/*.{swift, h}"
   
 end
