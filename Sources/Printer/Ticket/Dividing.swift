@@ -26,8 +26,11 @@ public struct Dividing: BlockDataProvider {
     let printDensity: Int
     let fontDensity: Int
     
-    static var `default`: Dividing {
+    /*static var `default`: Dividing {
         return Dividing(provider: Character("-"), printDensity: 384, fontDensity: 12)
+    }*/
+    static func `default`(provider: Character = Character("-"), printDensity: Int = 384, fontDensity: Int = 12) -> Dividing {
+        return Dividing(provider: provider, printDensity: printDensity, fontDensity: fontDensity)
     }
     
     public func data(using encoding: String.Encoding) -> Data {

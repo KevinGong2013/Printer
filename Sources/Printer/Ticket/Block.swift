@@ -63,12 +63,15 @@ public extension Block {
     }
     
     // key    value
-    static func kv(k: String, v: String) -> Block {
-        return Block(Text.kv(k: k, v: v))
+    static func kv(printDensity: Int = 384, fontDensity: Int = 12, k: String, v: String) -> Block {
+        return Block(Text.kv(printDensity: printDensity, fontDensity: fontDensity, k: k, v: v))
     }
     
     // dividing
-    static var dividing = Block(Dividing.default)
+    //static var dividing = Block(Dividing.default)
+    static func dividing(provider: Character = Character("-"), printDensity: Int = 384, fontDensity: Int = 12) -> Block {
+        return Block(Dividing.default(provider: provider, printDensity: printDensity, fontDensity: fontDensity))
+    }
     
     // image
     static func image(_ im: Image, attributes: TicketImage.PredefinedAttribute...) -> Block {
