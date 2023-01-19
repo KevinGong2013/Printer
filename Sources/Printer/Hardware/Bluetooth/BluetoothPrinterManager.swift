@@ -273,6 +273,14 @@ public class BluetoothPrinterManager {
             return true
         }
     }
+    
+    public var printer: BluetoothPrinter? {
+        guard let p = peripheralDelegate.writablePeripheral else {
+            return nil
+        }
+        
+        return BluetoothPrinter(p)
+    }
 
     public func print(_ content: ESCPOSCommandsCreator, encoding: String.Encoding = String.GBEncoding.GB_18030_2000, completeBlock: ((PError?) -> ())? = nil) {
 
