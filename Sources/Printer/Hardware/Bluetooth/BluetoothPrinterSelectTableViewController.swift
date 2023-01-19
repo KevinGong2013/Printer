@@ -13,6 +13,7 @@ public class BluetoothPrinterSelectTableViewController: UITableViewController {
     public weak var printerManager: BluetoothPrinterManager?
 
     public var sectionTitle: String? // convenience property
+    public var updateHandler: (([BluetoothPrinter]) -> Void)? // convenience property to get updates on nearbyPrinters (printerManager has only one delegate at it is assigned to this VC)
     
     var dataSource = [BluetoothPrinter]()
 
@@ -110,5 +111,7 @@ extension BluetoothPrinterSelectTableViewController: PrinterManagerDelegate {
         }
 
         tableView.endUpdates()
+        
+        self.updateHandler?(self.printerManager?.nearbyPrinters ?? [])
     }
 }
