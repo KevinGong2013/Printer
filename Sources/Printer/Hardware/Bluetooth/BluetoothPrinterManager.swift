@@ -79,6 +79,7 @@ public extension BluetoothPrinterManager {
 }
 
 public class BluetoothPrinterManager {
+    public var updateHandler: (() -> Void)?
 
     private let queue = DispatchQueue(label: "com.kevin.gong.printer")
 
@@ -178,6 +179,7 @@ public class BluetoothPrinterManager {
     private func nearbyPrinterDidChange(_ change: NearbyPrinterChange) {
         DispatchQueue.main.async { [weak self] in
             self?.delegate?.nearbyPrinterDidChange(change)
+            self?.updateHandler?()
         }
     }
 
