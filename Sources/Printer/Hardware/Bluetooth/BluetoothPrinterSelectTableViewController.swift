@@ -109,6 +109,6 @@ extension BluetoothPrinterSelectTableViewController: PrinterManagerDelegate {
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
 
-        tableView.endUpdates()
+        tableView.endUpdates()      
     }
 }

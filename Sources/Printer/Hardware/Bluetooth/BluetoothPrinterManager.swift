@@ -79,6 +79,7 @@ public extension BluetoothPrinterManager {
 }
 
 public class BluetoothPrinterManager {
+    public var updateHandler: (() -> Void)?
 
     private let queue = DispatchQueue(label: "com.kevin.gong.printer")
 
@@ -178,6 +179,7 @@ public class BluetoothPrinterManager {
     private func nearbyPrinterDidChange(_ change: NearbyPrinterChange) {
         DispatchQueue.main.async { [weak self] in
             self?.delegate?.nearbyPrinterDidChange(change)
+            self?.updateHandler?()
         }
     }
 
@@ -272,6 +274,14 @@ public class BluetoothPrinterManager {
         } else {
             return true
         }
+    }
+    
+    public var printer: BluetoothPrinter? {
+        guard let p = peripheralDelegate.writablePeripheral else {
+            return nil
+        }
+        
+        return BluetoothPrinter(p)
     }
 
     public func print(_ content: ESCPOSCommandsCreator, encoding: String.Encoding = String.GBEncoding.GB_18030_2000, completeBlock: ((PError?) -> ())? = nil) {
