@@ -14,7 +14,7 @@ Swift ticket printer framework for ESC/POS-compatible thermal printers
 
 ### CocoaPods
 
-#### iOS 129 and newer
+#### iOS 12 and newer
 
 Printer is available on CocoaPods. Simply add the following line to your podfile:
 
@@ -42,8 +42,16 @@ import Printer
     <<~ .style(.initialize)
     <<< Image(cgImage)
     <<< "Testing"
+    <<< "Testing"
+    <<< KV("k", "v")
+    <<~ .style(.clear)
+    <<< Image(cgImage, grayThreshold: 28)
+    <<< Dividing.`default`()
+    <<~ .page(.printAndFeed(lines: 0))
+    <<~ .style(.initialize)
+    <<< QRCode(content: "https://www.apple.com")
     <<~ .style(.underlineMode(.enable2dot))
-    <<~ .page(.printAndFeed(lines: 19))
+    <<~ .page(.printAndFeed(lines: 10))
     
     printer.write(Data(receipt.data))
 
@@ -64,7 +72,7 @@ dummyPrinter.write(ticket)
 
 ```
 
-### Ticket && Blocks
+### Receipt
 
 [TODO]
 
