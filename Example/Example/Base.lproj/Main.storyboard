@@ -36,8 +36,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="myq-5X-0ue">
-                                <rect key="frame" x="149" y="318.5" width="77" height="30"/>
-                                <state key="normal" title="选择打印机"/>
+                                <rect key="frame" x="136.5" y="318.5" width="102" height="30"/>
+                                <state key="normal" title="Choose Printer"/>
                                 <connections>
                                     <segue destination="C38-gH-Uql" kind="show" identifier="ShowSelectPrintVC" id="c1i-9o-NVf"/>
                                 </connections>

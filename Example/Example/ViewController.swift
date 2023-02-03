@@ -3,7 +3,6 @@
 //  Example
 //
 //  Created by GongXiang on 12/8/16.
-//  Updated by Pradeep Sakharelia on 15/05/19
 //  Copyright © 2016 Kevin. All rights reserved.
 //
 
@@ -28,7 +27,7 @@ class ViewController: UIViewController {
         guard let image = UIImage(named: "demo"), let cgImage = image.cgImage else {
             return
         }
-        
+             
         let receipt = Receipt(.init(maxWidthDensity: 500, fontDesity: 12, encoding: .utf8))
         <<~ .style(.initialize)
         <<~ .page(.printAndFeed(lines: 3))
