@@ -9,54 +9,49 @@
 
 import UIKit
 import Printer
+import WebKit
 
 class ViewController: UIViewController {
 
     private let bluetoothPrinterManager = BluetoothPrinterManager()
     private let dummyPrinter = DummyPrinter()
- 
+    
+    @IBOutlet weak var webView: WKWebView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        dummyPrinter.ticketRender = self
+    }
+    
     @IBAction func touchPrint(sender: UIButton) {
 
-        guard let image = UIImage(named: "demo") else {
+        guard let image = UIImage(named: "demo"), let cgImage = image.cgImage else {
             return
         }
-
-        var ticket = Ticket(
-            .title("Restaurant"),
-            .blank,
-            .plainText("Palo Alto Californlia 94301"),
-            .plainText("378-0987893742"),
-            .blank,
-            .image(image, attributes: .alignment(.center)),
-            .text(.init(content: Date().description, predefined: .alignment(.center))),
-            .blank,
-            .kv(k: "Merchant ID:", v: "iceu1390"),
-            .kv(k: "Terminal ID:", v: "29383"),
-            .blank,
-            .kv(k: "Transaction ID:", v: "0x000321"),
-            .plainText("PURCHASE"),
-            .blank,
-            .kv(k: "Sub Total", v: "USD$ 25.09"),
-            .kv(k: "Tip", v: "3.78"),
-            .dividing,
-            .kv(k: "Total", v: "USD$ 28.87"),
-            .blank(3),
-            Block(Text(content: "Thanks for supporting", predefined: .alignment(.center))),
-            .blank,
-            
-            .text(.init(content: "THANK YOU", predefined: .bold, .alignment(.center))),
-            .blank(3),
-            .qr("https://www.yuxiaor.com")
-        )
         
-        ticket.feedLinesOnHead = 2
-        ticket.feedLinesOnTail = 3
+        let receipt = Receipt(.init(maxWidthDensity: 500, fontDesity: 12, encoding: .utf8))
+        <<~ .style(.initialize)
+        <<~ .page(.printAndFeed(lines: 3))
+        <<~ .layout(.justification(.center))
+        <<< Dividing.`default`()
+        <<~ .style(.underlineMode(.enable2dot))
+        <<< "Testing"
+        <<< KV("k", "v")
+        <<~ .style(.clear)
+        <<< Image(cgImage)
+        <<< Dividing.`default`()
+        <<~ .page(.printAndFeed(lines: 0))
+        <<~ .style(.initialize)
+        <<< QRCode(content: "https://www.yuxiaor.com")
+        <<~ .cursor(.lineFeed)
+        <<< Command.cursor(.lineFeed)
+        <<~ .cursor(.lineFeed)
         
         if bluetoothPrinterManager.canPrint {
-            bluetoothPrinterManager.print(ticket)
+            bluetoothPrinterManager.print(Data(receipt.data))
         }
         
-        dummyPrinter.print(ticket)
+        dummyPrinter.print(Data(receipt.data))
         
     }
     
@@ -65,5 +60,16 @@ class ViewController: UIViewController {
             vc.sectionTitle = "Choose Bluetooth Printer"
             vc.printerManager = bluetoothPrinterManager
         }
+    }
+}
+
+
+extension ViewController: TicketRender {
+    
+    func printerDidGenerate(_ printer: DummyPrinter, html htmlTicket: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.webView.loadHTMLString(htmlTicket, baseURL: nil)
+        }
+//        debugPrint(htmlTicket)
     }
 }

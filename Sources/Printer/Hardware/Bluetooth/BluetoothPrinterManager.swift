@@ -9,12 +9,6 @@
 import Foundation
 import CoreBluetooth
 
-public extension String {
-    struct GBEncoding {
-        public static let GB_18030_2000 = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue)))
-    }
-}
-
 private extension CBPeripheral {
 
     var printerState: BluetoothPrinter.State {
@@ -284,7 +278,7 @@ public class BluetoothPrinterManager {
         return BluetoothPrinter(p)
     }
 
-    public func print(_ content: ESCPOSCommandsCreator, encoding: String.Encoding = String.GBEncoding.GB_18030_2000, completeBlock: ((PError?) -> ())? = nil) {
+    public func print(_ data: Data, completeBlock: ((PError?) -> ())? = nil) {
 
         guard let p = peripheralDelegate.writablePeripheral, let c = peripheralDelegate.writablecharacteristic else {
 
@@ -292,10 +286,8 @@ public class BluetoothPrinterManager {
             return
         }
 
-        for data in content.data(using: encoding) {
-
-            p.writeValue(data, for: c, type: .withoutResponse)
-        }
+        // 支持分片发送
+        p.writeValue(Data(data), for: c, type: .withoutResponse)
 
         completeBlock?(nil)
     }

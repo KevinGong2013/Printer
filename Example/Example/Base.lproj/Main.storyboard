@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="KWe-fs-Dzz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="KWe-fs-Dzz">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -35,20 +35,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="myq-5X-0ue">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="myq-5X-0ue">
                                 <rect key="frame" x="149" y="318.5" width="77" height="30"/>
                                 <state key="normal" title="选择打印机"/>
                                 <connections>
                                     <segue destination="C38-gH-Uql" kind="show" identifier="ShowSelectPrintVC" id="c1i-9o-NVf"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NKX-1x-uGd">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NKX-1x-uGd">
                                 <rect key="frame" x="171.5" y="385" width="32" height="30"/>
                                 <state key="normal" title="Print"/>
                                 <connections>
                                     <action selector="touchPrintWithSender:" destination="DE1-bG-0Uc" eventType="touchUpInside" id="Gco-0x-iAH"/>
                                 </connections>
                             </button>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1iD-4H-XZc">
+                                <rect key="frame" x="0.0" y="0.0" width="355" height="300"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="jUr-Sn-sOe"/>
+                                </constraints>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -56,13 +67,19 @@
                             <constraint firstItem="myq-5X-0ue" firstAttribute="centerX" secondItem="gVX-EN-636" secondAttribute="centerX" id="5YQ-sN-8Qh"/>
                             <constraint firstItem="NKX-1x-uGd" firstAttribute="centerX" secondItem="gVX-EN-636" secondAttribute="centerX" id="XSW-I8-MPG"/>
                             <constraint firstItem="myq-5X-0ue" firstAttribute="centerY" secondItem="gVX-EN-636" secondAttribute="centerY" id="YKR-qF-KuA"/>
+                            <constraint firstItem="1iD-4H-XZc" firstAttribute="leading" secondItem="gVX-EN-636" secondAttribute="leading" id="cFp-4e-gu5"/>
+                            <constraint firstAttribute="trailing" secondItem="1iD-4H-XZc" secondAttribute="trailing" constant="20" symbolic="YES" id="iCG-fe-iIB"/>
+                            <constraint firstItem="1iD-4H-XZc" firstAttribute="top" secondItem="gVX-EN-636" secondAttribute="top" id="znM-IE-Kfv"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Ayy-tS-6dm"/>
+                    <connections>
+                        <outlet property="webView" destination="1iD-4H-XZc" id="bms-jN-ocI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HW7-hk-8SU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-502" y="35"/>
+            <point key="canvasLocation" x="-503.19999999999999" y="34.632683658170919"/>
         </scene>
         <!--Bluetooth Printer Select Table View Controller-->
         <scene sceneID="BcZ-yC-hIz">
@@ -71,7 +88,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="Tw5-ke-9fr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                         <connections>
                             <outlet property="dataSource" destination="C38-gH-Uql" id="ipt-En-70Z"/>
                             <outlet property="delegate" destination="C38-gH-Uql" id="y3m-C2-vUb"/>
@@ -83,4 +100,9 @@
             <point key="canvasLocation" x="254" y="35"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="groupTableViewBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>

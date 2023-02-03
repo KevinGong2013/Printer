@@ -8,14 +8,23 @@
 
 import Foundation
 
+// For debug
+
+public protocol TicketRender: NSObject {
+    
+    func printerDidGenerate(_ printer: DummyPrinter, html htmlTicket: String)
+}
+
 public class DummyPrinter {
+    
+    public weak var ticketRender: TicketRender?
     
     public init() {}
     
-    public func print(_ value: ESCPOSCommandsCreator) {
-        let data = value.data(using: .utf8)
-        for d in data {
-            debugPrint(d.reduce("", { $0 + String(format: "%d ", $1)}))
-        }
+    public func print(_ data: Data) {
+        
+        let value = data.base64EncodedString()
+        
+        debugPrint(value)
     }
 }
