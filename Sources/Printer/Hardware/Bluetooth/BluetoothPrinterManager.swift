@@ -278,7 +278,7 @@ public class BluetoothPrinterManager {
         return BluetoothPrinter(p)
     }
 
-    public func print(_ data: Data, completeBlock: ((PError?) -> ())? = nil) {
+    public func write(_ data: Data, completeBlock: ((PError?) -> ())? = nil) {
 
         guard let p = peripheralDelegate.writablePeripheral, let c = peripheralDelegate.writablecharacteristic else {
 

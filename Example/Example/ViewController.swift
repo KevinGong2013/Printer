@@ -48,10 +48,10 @@ class ViewController: UIViewController {
         <<~ .cursor(.lineFeed)
         
         if bluetoothPrinterManager.canPrint {
-            bluetoothPrinterManager.print(Data(receipt.data))
+            bluetoothPrinterManager.write(Data(receipt.data))
         }
         
-        dummyPrinter.print(Data(receipt.data))
+        dummyPrinter.write(Data(receipt.data))
         
     }
     

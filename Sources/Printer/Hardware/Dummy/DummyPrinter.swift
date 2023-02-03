@@ -21,7 +21,7 @@ public class DummyPrinter {
     
     public init() {}
     
-    public func print(_ data: Data) {
+    public func write(_ data: Data) {
         
         let value = data.base64EncodedString()
         

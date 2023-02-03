@@ -2,40 +2,31 @@
 # ESC/POS Printer Driver for Swift
 
 # Description
+
 Swift ticket printer framework for ESC/POS-compatible thermal printers
 
-
-### Features
-* Supports connect bluetooth printer.
-* Create printable ticket easily.
-
 ## Requirements
-* iOS 9.0+
-* Swift 5.0
+
+* iOS 12.0+
+* Swift 5.3+
 
 ## Installation
+
 ### CocoaPods
-#### iOS 9 and newer
+
+#### iOS 129 and newer
+
 Printer is available on CocoaPods. Simply add the following line to your podfile:
 
-```
+``` shell
+
 # For latest release in cocoapods
-pod 'Printer'
-```
+pod 'Printer', :git => 'https://github.com/KevinGong2013/Printer.git', :branch => 'refactor'
 
-### Carthage
-
-```
-github "KevinGong2013/Printer"
-```
-
-### Swift Package Manager
-File -> Add Package -> Enter Package URL 
-```
-https://github.com/KevinGong2013/Printer
 ```
 
 ## Getting Started
+
 ### Import
 
 ```swift
@@ -45,38 +36,16 @@ import Printer
 
 ### Create ESC/POS Ticket
 
-``` swift 
+``` swift
 
-var ticket = Ticket(
-            .title("Restaurant"),
-            .blank,
-            .plainText("Palo Alto Californlia 94301"),
-            .plainText("378-0987893742"),
-            .blank,
-            .image(image, attributes: .alignment(.center)),
-            .text(.init(content: Date().description, predefined: .alignment(.center))),
-            .blank,
-            .kv(k: "Merchant ID:", v: "iceu1390"),
-            .kv(k: "Terminal ID:", v: "29383"),
-            .blank,
-            .kv(k: "Transaction ID:", v: "0x000321"),
-            .plainText("PURCHASE"),
-            .blank,
-            .kv(k: "Sub Total", v: "USD$ 25.09"),
-            .kv(k: "Tip", v: "3.78"),
-            .dividing,
-            .kv(k: "Total", v: "USD$ 28.87"),
-            .blank(3),
-            Block(Text(content: "Thanks for supporting", predefined: .alignment(.center))),
-            .blank,
-            
-            .text(.init(content: "THANK YOU", predefined: .bold, .alignment(.center))),
-            .blank(3),
-            .qr("https://www.yuxiaor.com")
-        )
-        
-        ticket.feedLinesOnHead = 2
-        ticket.feedLinesOnTail = 3
+    let receipt = Receipt(.🖨️58(.ascii))
+    <<~ .style(.initialize)
+    <<< Image(cgImage)
+    <<< "Testing"
+    <<~ .style(.underlineMode(.enable2dot))
+    <<~ .page(.printAndFeed(lines: 19))
+    
+    printer.write(Data(receipt.data))
 
 ```
 
@@ -89,15 +58,16 @@ private let bluetoothPrinterManager = BluetoothPrinterManager()
 private let dummyPrinter = DummyPrinter()
 
  if bluetoothPrinterManager.canPrint {
-    bluetoothPrinterManager.print(ticket)
+    bluetoothPrinterManager.write(ticket)
   }
-dummyPrinter.print(ticket)
+dummyPrinter.write(ticket)
 
 ```
 
 ### Ticket && Blocks
+
 [TODO]
 
 ### Notes
-- Send data to your own Bluetooth Manager is possible
-  
+
+* Send data to your own Bluetooth Manager is possible
