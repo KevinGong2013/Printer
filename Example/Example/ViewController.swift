@@ -38,7 +38,7 @@ class ViewController: UIViewController {
         <<< "Testing"
         <<< KV("k", "v")
         <<~ .style(.clear)
-        <<< Image(cgImage)
+        <<< Image(cgImage, grayThreshold: 28)
         <<< Dividing.`default`()
         <<~ .page(.printAndFeed(lines: 0))
         <<~ .style(.initialize)

@@ -22,12 +22,15 @@ public struct Image: ReceiptItem {
     let width: Int
     let height: Int
     
-    public init(_ cgImage: CGImage, mode: Mode = .normal) {
+    let grayThreshold: UInt8
+    
+    public init(_ cgImage: CGImage, grayThreshold: UInt8 = 128, mode: Mode = .normal) {
         
         self.cgImage = cgImage
         self.mode = mode
         self.width = cgImage.width
         self.height = cgImage.height
+        self.grayThreshold = grayThreshold
     }
     
     public func assemblePrintableData(_ profile: PrinterProfile) -> [UInt8] {
@@ -71,7 +74,7 @@ public struct Image: ReceiptItem {
                 let components = (r: bytes[offset], g: bytes[offset + 1], b: bytes[offset + 2], a: bytes[offset+3])
                 let grayValue = UInt8((Int(components.r) * 38 + Int(components.g) & 75 + Int(components.b) * 15) >> 7)
 
-                pixels.append(grayValue > 28 ? 1 : 0)
+                pixels.append(grayValue > grayThreshold ? 1 : 0)
 //                    0..65535
 //                    let grayValue = Int(bytes[offset]) * 256 + Int(bytes[offset + 1])
 //                    pixels.append(grayValue > 65535/2 ? 1 : 0)
