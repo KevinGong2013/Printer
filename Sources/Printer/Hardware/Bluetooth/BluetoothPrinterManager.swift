@@ -80,11 +80,14 @@ public class BluetoothPrinterManager {
     private let centralManager: CBCentralManager
 
     private let centralManagerDelegate = BluetoothCentralManagerDelegate(BluetoothPrinterManager.specifiedServices)
-    private let peripheralDelegate = BluetoothPeripheralDelegate(BluetoothPrinterManager.specifiedServices, characteristics: BluetoothPrinterManager.specifiedCharacteristics)
+    
+    private let peripheralDelegate = BluetoothPeripheralDelegate(
+        BluetoothPrinterManager.specifiedServices,
+        characteristics: BluetoothPrinterManager.specifiedCharacteristics)
 
     public weak var delegate: PrinterManagerDelegate?
 
-    public var errorReport: ((PError) -> ())?
+    public var errorReport: ((PError) -> Void)?
 
     private var connectTimer: Timer?
 
@@ -218,7 +221,13 @@ public class BluetoothPrinterManager {
         if let t = connectTimer {
             t.invalidate()
         }
-        connectTimer = Timer(timeInterval: 15, target: self, selector: #selector(connectTimeout(_:)), userInfo: p.identifier, repeats: false)
+        
+        connectTimer = Timer(timeInterval: 15,
+                             target: self,
+                             selector: #selector(connectTimeout(_:)),
+                             userInfo: p.identifier,
+                             repeats: false)
+        
         RunLoop.main.add(connectTimer!, forMode: .default)
 
         centralManager.connect(per, options: [CBConnectPeripheralOptionNotifyOnDisconnectionKey: true])
@@ -263,7 +272,7 @@ public class BluetoothPrinterManager {
     }
 
     public var canPrint: Bool {
-        if peripheralDelegate.writablecharacteristic == nil || peripheralDelegate.writablePeripheral == nil {
+        if peripheralDelegate.writableCharacteristic == nil || peripheralDelegate.writablePeripheral == nil {
             return false
         } else {
             return true
@@ -278,9 +287,9 @@ public class BluetoothPrinterManager {
         return BluetoothPrinter(p)
     }
 
-    public func write(_ data: Data, completeBlock: ((PError?) -> ())? = nil) {
+    public func write(_ data: Data, completeBlock: ((PError?) -> Void)? = nil) {
 
-        guard let p = peripheralDelegate.writablePeripheral, let c = peripheralDelegate.writablecharacteristic else {
+        guard let p = peripheralDelegate.writablePeripheral, let c = peripheralDelegate.writableCharacteristic else {
 
             completeBlock?(.deviceNotReady)
             return

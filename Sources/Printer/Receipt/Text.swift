@@ -8,18 +8,16 @@
 import Foundation
 
 extension String: ReceiptItem {
-    
     public func assemblePrintableData(_ profile: PrinterProfile) -> [UInt8] {
-        guard let data = self.data(using: profile.encoding) else {
+        guard let data = data(using: profile.encoding) else {
             return []
         }
         
-        return Array<UInt8>(data) + Command.CursorPosition.lineFeed.value
+        return [UInt8](data) + Command.CursorPosition.lineFeed.value
     }
 }
 
-public struct KV: ReceiptItem {
-    
+public struct KVItem: ReceiptItem {
     public let k: String
     public let v: String
     
@@ -29,15 +27,14 @@ public struct KV: ReceiptItem {
     }
     
     public func assemblePrintableData(_ profile: PrinterProfile) -> [UInt8] {
-        
-        var num = profile.maxWidthDensity / profile.fontDesity
+        var num = profile.maxWidthDensity / profile.fontDensity
         
         let string = k + v
         
         for c in string {
-            if (c >= "\u{2E80}" && c <= "\u{FE4F}") || c == "\u{FFE5}"{
+            if (c >= "\u{2E80}" && c <= "\u{FE4F}") || c == "\u{FFE5}" {
                 num -= 2
-            } else  {
+            } else {
                 num -= 1
             }
         }
@@ -51,30 +48,28 @@ public struct KV: ReceiptItem {
     }
 }
 
-public protocol DividingPrivoider {
+public protocol DividingProvider {
     func character(for current: Int, total: Int) -> Character
 }
 
-extension Character: DividingPrivoider {
+extension Character: DividingProvider {
     public func character(for current: Int, total: Int) -> Character {
         return self
     }
 }
 
 public struct Dividing: ReceiptItem {
-    
-    let provider: DividingPrivoider
+    let provider: DividingProvider
     
     public static func `default`(provider: Character = Character("-")) -> Dividing {
         return Dividing(provider: provider)
     }
     
     public func assemblePrintableData(_ profile: PrinterProfile) -> [UInt8] {
-        let num = profile.maxWidthDensity / profile.fontDesity
-        let content = stride(from: 0, to: num, by: 1).map { String(provider.character(for: $0, total: num) ) }.joined()
+        let num = profile.maxWidthDensity / profile.fontDensity
+        let content = stride(from: 0, to: num, by: 1).map { String(provider.character(for: $0, total: num)) }.joined()
         return content.assemblePrintableData(profile)
     }
-    
 }
 
 /// Any other Text template(s)

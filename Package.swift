@@ -18,15 +18,15 @@ let package = Package(
         )
     ],
     dependencies: [],
-    targets:[
+    targets: [
         .target(
             name: "Printer",
-            exclude:["Info.plist"]
+            exclude: ["Info.plist"]
         ),
         .testTarget(
             name: "PrinterTests",
             dependencies: ["Printer"],
-            exclude:["Info.plist"]
+            exclude: ["Info.plist"]
         )
     ]
 )
