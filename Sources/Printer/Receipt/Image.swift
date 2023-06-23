@@ -1,5 +1,5 @@
 //
-//  Image.swift
+//  ImageItem.swift
 //  Printer
 //
 //  Created by gix on 2023/2/2.
@@ -8,7 +8,7 @@
 import CoreGraphics
 import Foundation
 
-public struct Image: ReceiptItem {
+public struct ImageItem: ReceiptItem {
     public enum Mode: UInt8 {
         case normal = 0
         case doubleWidth = 1
