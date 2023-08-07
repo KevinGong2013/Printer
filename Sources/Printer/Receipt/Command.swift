@@ -194,7 +194,6 @@ public enum Command {
         case justification(Alignment)
         
         /**
-         -- TODO command
          Left Margin
          Motion Units
          Print Area Width
