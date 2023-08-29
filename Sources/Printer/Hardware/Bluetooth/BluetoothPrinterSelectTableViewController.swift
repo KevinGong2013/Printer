@@ -8,12 +8,12 @@
 
 import UIKit
 
+// swiftlint:disable type_name
 public class BluetoothPrinterSelectTableViewController: UITableViewController {
-
     public weak var printerManager: BluetoothPrinterManager?
 
     public var sectionTitle: String? // convenience property
-    
+
     var dataSource = [BluetoothPrinter]()
 
     override public func viewDidLoad() {
@@ -26,17 +26,14 @@ public class BluetoothPrinterSelectTableViewController: UITableViewController {
     }
 
     override public func numberOfSections(in tableView: UITableView) -> Int {
-
         return 1
     }
 
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
         return dataSource.count
     }
 
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
 
         guard indexPath.row < dataSource.count else {
@@ -68,7 +65,6 @@ public class BluetoothPrinterSelectTableViewController: UITableViewController {
     }
 
     override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
         tableView.deselectRow(at: indexPath, animated: true)
 
         let p = dataSource[indexPath.row]
@@ -79,13 +75,10 @@ public class BluetoothPrinterSelectTableViewController: UITableViewController {
             printerManager?.connect(p)
         }
     }
-
 }
 
 extension BluetoothPrinterSelectTableViewController: PrinterManagerDelegate {
-
     public func nearbyPrinterDidChange(_ change: NearbyPrinterChange) {
-
         tableView.beginUpdates()
 
         switch change {
@@ -94,14 +87,14 @@ extension BluetoothPrinterSelectTableViewController: PrinterManagerDelegate {
             dataSource.append(p)
             tableView.insertRows(at: [indexPath], with: .automatic)
         case let .update(p):
-            guard let row = (dataSource.firstIndex() { $0.identifier == p.identifier } ) else {
+            guard let row = (dataSource.firstIndex { $0.identifier == p.identifier }) else {
                 return
             }
             dataSource[row] = p
             let indexPath = IndexPath(row: row, section: 0)
             tableView.reloadRows(at: [indexPath], with: .automatic)
         case let .remove(identifier):
-            guard let row = (dataSource.firstIndex() { $0.identifier == identifier } ) else {
+            guard let row = (dataSource.firstIndex { $0.identifier == identifier }) else {
                 return
             }
             dataSource.remove(at: row)
@@ -109,6 +102,6 @@ extension BluetoothPrinterSelectTableViewController: PrinterManagerDelegate {
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
 
-        tableView.endUpdates()      
+        tableView.endUpdates()
     }
 }

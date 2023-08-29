@@ -6,22 +6,21 @@
 //  Copyright © 2016 Kevin. All rights reserved.
 //
 
-import Foundation
 import CoreBluetooth
+import Foundation
 
 class BluetoothPeripheralDelegate: NSObject, CBPeripheralDelegate {
-
     private var services: Set<String>!
     private var characteristics: Set<CBUUID>?
 
-    private let writablecharacteristicUUID = "BEF8D6C9-9C21-4C9E-B632-BD58C1009F9F"
+    private let writableCharacteristicUUID = "BEF8D6C9-9C21-4C9E-B632-BD58C1009F9F"
 
-    var wellDoneCanWriteData: ((CBPeripheral) -> ())?
+    var wellDoneCanWriteData: ((CBPeripheral) -> Void)?
 
     private(set) var writablePeripheral: CBPeripheral?
-    private(set) var writablecharacteristic: CBCharacteristic? {
+    private(set) var writableCharacteristic: CBCharacteristic? {
         didSet {
-            if let wc = writablecharacteristic, let wp = writablePeripheral {
+            if let wc = writableCharacteristic, let wp = writablePeripheral {
                 wp.setNotifyValue(true, for: wc)
                 wellDoneCanWriteData?(wp)
             }
@@ -35,20 +34,17 @@ class BluetoothPeripheralDelegate: NSObject, CBPeripheralDelegate {
     }
 
     func disconnect(_ peripheral: CBPeripheral) {
-
         guard let wp = writablePeripheral else {
             return
         }
 
         if wp.identifier == peripheral.identifier {
-
             writablePeripheral = nil
-            writablecharacteristic = nil
+            writableCharacteristic = nil
         }
     }
 
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-
         guard error == nil else { return }
 
         guard let prServices = peripheral.services else {
@@ -60,14 +56,19 @@ class BluetoothPeripheralDelegate: NSObject, CBPeripheralDelegate {
         }
     }
 
-    public func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
-
+    public func peripheral(_ peripheral: CBPeripheral,
+                           didDiscoverCharacteristicsFor service: CBService,
+                           error: Error?)
+    {
         writablePeripheral = peripheral
-        writablecharacteristic = service.characteristics?.filter { $0.uuid.uuidString == writablecharacteristicUUID }.first
+        writableCharacteristic = service.characteristics?
+            .filter { $0.uuid.uuidString == writableCharacteristicUUID }.first
     }
 
-    public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-
+    public func peripheral(_ peripheral: CBPeripheral,
+                           didUpdateValueFor characteristic: CBCharacteristic,
+                           error: Error?)
+    {
         print(characteristic)
     }
 }

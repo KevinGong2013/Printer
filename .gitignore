@@ -66,3 +66,4 @@ fastlane/test_output
 README.md
 Example/Example.xcworkspace/xcshareddata
 Example/Pods
+.DS_Store

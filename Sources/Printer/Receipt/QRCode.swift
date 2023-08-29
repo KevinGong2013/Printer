@@ -8,7 +8,6 @@
 import Foundation
 
 public struct QRCode: ReceiptItem {
-    
     public enum Model: UInt8 {
         case m_1 = 49
         case m_2 = 50
@@ -36,9 +35,8 @@ public struct QRCode: ReceiptItem {
         self.level = level
     }
     
-//  https://reference.epson-biz.com/modules/ref_escpos/index.php?content_id=145
+    //  https://reference.epson-biz.com/modules/ref_escpos/index.php?content_id=145
     public func assemblePrintableData(_ profile: PrinterProfile) -> [UInt8] {
-        
         guard let contentData = content.data(using: profile.encoding) else {
             return []
         }
@@ -65,5 +63,4 @@ public struct QRCode: ReceiptItem {
         
         return data
     }
-
 }
