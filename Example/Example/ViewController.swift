@@ -54,7 +54,7 @@ class ViewController: UIViewController {
             <<~ .layout(.justification(.center))
             <<< ImageItem(cgImage, binarization: .dither)
             <<< QRCode(content: "https://github.com/KevinGong2013/Printer", moduleSize: 6)
-            <<< Barcode("PRINTER-001", height: 60)
+            <<< Barcode("PRINTER-001", height: 60, moduleWidth: 2)
             <<~ .page(.printAndFeed(lines: 3))
             <<~ .page(.feedAndCut(partial: true, feed: 0))
 

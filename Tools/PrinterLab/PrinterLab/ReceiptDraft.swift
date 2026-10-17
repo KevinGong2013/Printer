@@ -93,7 +93,7 @@ final class ReceiptDraft: ObservableObject {
     @Published var barcodeContent = "PRINTER-001"
     @Published var symbology: Barcode.Symbology = .code128
     @Published var barcodeHeight = 80.0
-    @Published var barcodeWidth = 3.0
+    @Published var barcodeWidth = 2.0
     @Published var barcodeText: Barcode.TextPosition = .below
 
     // Raw
