@@ -1,6 +1,6 @@
 # Changelog
 
-## 5.0.0 — unreleased
+## 5.0.0 — 2026-10-17
 
 ### Breaking
 - CocoaPods support removed; use Swift Package Manager. `Printer.podspec` and the fastlane release lane are gone.
