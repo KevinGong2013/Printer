@@ -17,6 +17,7 @@
 - Text that cannot be encoded is converted lossily instead of being dropped silently (#39 #66 #78).
 - Bluetooth writes are chunked to the negotiated MTU and paced with `canSendWriteWithoutResponse`; previously the whole receipt was passed to one `writeValue` call and anything beyond the MTU was lost (#16 #52 #57 #68).
 - A writable characteristic is picked by its properties, so printers with unknown characteristic UUIDs work. Default service list covers Gprinter / Xprinter, ISSC (GoojPRT, PT-210), `18F0`, `FFE0`, `FF00` (#12 #33 #80).
+- Printers that expose several serial-port services (e.g. Gprinter: `18F0` + ISSC + `E7810A71`) picked whichever service answered first, which on a GP-58 is the dead `18F0/2AF1` characteristic — nothing printed although the connection succeeded. Discovery now waits for every matching service and picks by `BluetoothPrinterManager.characteristicPriority`; `writableCharacteristics` / `useCharacteristic(_:service:)` let an app switch manually and `diagnostics` traces discovery, the chosen characteristic, MTU and chunking.
 - `BluetoothPeripheralDelegate` no longer marks a printer writable when no characteristic was found; `errorReport` receives `.notSupported` instead.
 - Race in the discovered-peripheral dictionary; connected peripherals adopted at start-up are now listed.
 - `KVItem` width now counts CJK characters as two cells using Unicode ranges instead of a single range.

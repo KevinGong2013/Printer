@@ -77,15 +77,22 @@ public extension BluetoothPrinterManager {
         "FF00",
     ]
 
-    /// Preferred write characteristics, tried in order of discovery. When none of these
-    /// is present the first characteristic with a write property is used.
-    static var specifiedCharacteristics: Set<String>? = [
-        "BEF8D6C9-9C21-4C9E-B632-BD58C1009F9F",
-        "49535343-8841-43F4-A8D4-ECBE34729BB3",
-        "2AF1",
+    /// Write characteristics in order of preference. Printers often expose several
+    /// serial-port services; the first match in this list wins, otherwise the first
+    /// characteristic with `writeWithoutResponse`, otherwise any writable one.
+    static var characteristicPriority: [String] = [
+        "BEF8D6C9-9C21-4C9E-B632-BD58C1009F9F", // Gprinter / Xprinter
+        "49535343-8841-43F4-A8D4-ECBE34729BB3", // Microchip ISSC
         "FFE1",
         "FF02",
+        "2AF1", // 18F0 "printer" service; on some modules this is a dead end
     ]
+
+    @available(*, deprecated, renamed: "characteristicPriority")
+    static var specifiedCharacteristics: Set<String>? {
+        get { Set(characteristicPriority) }
+        set { characteristicPriority = newValue.map(Array.init) ?? [] }
+    }
 }
 
 public class BluetoothPrinterManager {
@@ -99,12 +106,16 @@ public class BluetoothPrinterManager {
 
     private let peripheralDelegate = BluetoothPeripheralDelegate(
         BluetoothPrinterManager.specifiedServices,
-        characteristics: BluetoothPrinterManager.specifiedCharacteristics
+        characteristics: BluetoothPrinterManager.characteristicPriority
     )
 
     public weak var delegate: PrinterManagerDelegate?
 
     public var errorReport: ((PError) -> Void)?
+
+    /// Verbose trace (service discovery, chosen characteristic, MTU, chunking, notifications).
+    /// Called on the main queue. Useful when a printer connects but does not print.
+    public var diagnostics: ((String) -> Void)?
 
     /// Maximum bytes per BLE write. `0` (default) uses the negotiated MTU.
     /// Lower it (e.g. 100) for printers that garble long images.
@@ -132,6 +143,10 @@ public class BluetoothPrinterManager {
     }
 
     private func commonInit() {
+        peripheralDelegate.diagnostics = { [weak self] message in
+            DispatchQueue.main.async { self?.diagnostics?(message) }
+        }
+
         peripheralDelegate.wellDoneCanWriteData = { [weak self] in
             self?.connectTimer?.invalidate()
             self?.connectTimer = nil
@@ -320,6 +335,30 @@ public class BluetoothPrinterManager {
         }
     }
 
+    /// Every writable characteristic found on the connected printer, as
+    /// `(service, characteristic)` UUID strings. Use `useCharacteristic` to switch.
+    public var writableCharacteristics: [(service: String, characteristic: String)] {
+        peripheralDelegate.writableCandidates.map {
+            ($0.service?.uuid.uuidString ?? "?", $0.uuid.uuidString)
+        }
+    }
+
+    /// The characteristic writes currently go to.
+    public var currentCharacteristic: (service: String, characteristic: String)? {
+        peripheralDelegate.writableCharacteristic.map {
+            ($0.service?.uuid.uuidString ?? "?", $0.uuid.uuidString)
+        }
+    }
+
+    /// Redirect writes to another of `writableCharacteristics`.
+    @discardableResult
+    public func useCharacteristic(_ characteristic: String, service: String? = nil) -> Bool {
+        guard let p = peripheralDelegate.writablePeripheral else { return false }
+        return peripheralDelegate.select(characteristicUUID: CBUUID(string: characteristic),
+                                         serviceUUID: service.map { CBUUID(string: $0) },
+                                         on: p)
+    }
+
     public var printer: BluetoothPrinter? {
         guard let p = peripheralDelegate.writablePeripheral else {
             return nil
@@ -338,6 +377,10 @@ public class BluetoothPrinterManager {
         }
 
         let job = WriteJob(data: data, peripheral: p, characteristic: c, completion: completeBlock)
+        let type: CBCharacteristicWriteType = c.properties.contains(.writeWithoutResponse) ? .withoutResponse : .withResponse
+        let mtu = p.maximumWriteValueLength(for: type)
+        let chunk = writeChunkSize > 0 ? min(writeChunkSize, mtu) : mtu
+        diagnostics?("write \(data.count) bytes to \(c.uuid) as \(type == .withoutResponse ? "withoutResponse" : "withResponse"), mtu \(mtu), chunk \(chunk) → \((data.count + max(chunk, 1) - 1) / max(chunk, 1)) packets")
         queue.async { [weak self] in
             self?.pendingWrites.append(job)
             self?.pumpWrites()

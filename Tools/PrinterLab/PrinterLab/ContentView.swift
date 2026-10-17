@@ -103,6 +103,23 @@ struct PrintersSidebar: View {
                     }
                 }
 
+                if !session.characteristics.isEmpty {
+                    Section("Write characteristic") {
+                        Picker("", selection: Binding(
+                            get: { session.selectedCharacteristic },
+                            set: { session.selectCharacteristic($0) }
+                        )) {
+                            ForEach(session.characteristics, id: \.characteristic) { item in
+                                Text("\(short(item.service)) / \(short(item.characteristic))")
+                                    .tag("\(item.service)/\(item.characteristic)")
+                            }
+                        }
+                        .labelsHidden()
+                        Text("If nothing prints, try another one.")
+                            .font(.caption).foregroundStyle(.secondary)
+                    }
+                }
+
                 Section("Transfer") {
                     LabeledContent("Chunk size") {
                         TextField("auto", value: $session.chunkSize, format: .number)
@@ -131,6 +148,10 @@ struct PrintersSidebar: View {
             }
         }
         .listStyle(.sidebar)
+    }
+
+    private func short(_ uuid: String) -> String {
+        uuid.count > 8 ? String(uuid.prefix(8)) + "…" : uuid
     }
 
     private func pickDevice() {

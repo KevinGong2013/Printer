@@ -11,7 +11,8 @@ import Foundation
 
 class BluetoothPeripheralDelegate: NSObject, CBPeripheralDelegate {
     private var services = Set<CBUUID>()
-    private var preferredCharacteristics = Set<CBUUID>()
+    private var preferredCharacteristics = [CBUUID]()
+    private var candidates = [CBCharacteristic]()
 
     /// Called once a characteristic that accepts writes has been found.
     var wellDoneCanWriteData: ((CBPeripheral) -> Void)?
@@ -21,16 +22,18 @@ class BluetoothPeripheralDelegate: NSObject, CBPeripheralDelegate {
     var readyToWrite: ((CBPeripheral) -> Void)?
     /// `didWriteValueFor` (only for `.withResponse` writes)
     var didWrite: ((CBPeripheral, Error?) -> Void)?
+    /// Human readable trace of service / characteristic discovery and notifications.
+    var diagnostics: ((String) -> Void)?
 
     private(set) var writablePeripheral: CBPeripheral?
     private(set) var writableCharacteristic: CBCharacteristic?
 
     private var pendingServices = 0
 
-    convenience init(_ services: Set<String>, characteristics: Set<String>?) {
+    convenience init(_ services: Set<String>, characteristics: [String]) {
         self.init()
         self.services = Set(services.map { CBUUID(string: $0) })
-        preferredCharacteristics = Set((characteristics ?? []).map { CBUUID(string: $0) })
+        preferredCharacteristics = characteristics.map { CBUUID(string: $0) }
     }
 
     func disconnect(_ peripheral: CBPeripheral) {
@@ -41,50 +44,82 @@ class BluetoothPeripheralDelegate: NSObject, CBPeripheralDelegate {
         if wp.identifier == peripheral.identifier {
             writablePeripheral = nil
             writableCharacteristic = nil
+            candidates.removeAll()
         }
     }
 
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+        if let error {
+            diagnostics?("discoverServices failed: \(error.localizedDescription)")
+        }
         guard error == nil, let found = peripheral.services else {
             return
         }
+        diagnostics?("services: " + found.map(\.uuid.uuidString).joined(separator: ", "))
 
-        let candidates = services.isEmpty ? found : found.filter { services.contains($0.uuid) }
-        pendingServices = candidates.count
-        guard !candidates.isEmpty else {
+        let matching = services.isEmpty ? found : found.filter { services.contains($0.uuid) }
+        candidates.removeAll()
+        pendingServices = matching.count
+        guard !matching.isEmpty else {
             noWritableCharacteristic?(peripheral)
             return
         }
-        candidates.forEach { peripheral.discoverCharacteristics(nil, for: $0) }
+        matching.forEach { peripheral.discoverCharacteristics(nil, for: $0) }
     }
 
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error _: Error?) {
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         pendingServices -= 1
 
-        // Keep the first usable characteristic; don't let a later, unrelated service replace it.
-        if writableCharacteristic != nil, writablePeripheral?.identifier == peripheral.identifier {
-            return
-        }
-
         let characteristics = service.characteristics ?? []
+        if let error {
+            diagnostics?("discoverCharacteristics(\(service.uuid)) failed: \(error.localizedDescription)")
+        }
+        diagnostics?("service \(service.uuid): " + characteristics.map { "\($0.uuid) [\($0.properties.printerDescription)]" }.joined(separator: ", "))
+
         let writable = characteristics.filter {
             $0.properties.contains(.writeWithoutResponse) || $0.properties.contains(.write)
         }
+        candidates += writable.filter { c in !candidates.contains { $0.uuid == c.uuid && $0.service?.uuid == c.service?.uuid } }
 
-        let pick = writable.first { preferredCharacteristics.contains($0.uuid) }
-            ?? writable.first { $0.properties.contains(.writeWithoutResponse) }
-            ?? writable.first
+        // Wait until every matching service reported back, then pick the best candidate
+        // (a printer may expose several serial-port services; the first to answer is not
+        // necessarily the one that feeds the print engine).
+        guard pendingServices <= 0 else { return }
 
-        if let pick {
-            writablePeripheral = peripheral
-            writableCharacteristic = pick
-            if pick.properties.contains(.notify) {
-                peripheral.setNotifyValue(true, for: pick)
-            }
-            wellDoneCanWriteData?(peripheral)
-        } else if pendingServices <= 0 {
+        guard let pick = bestCandidate() else {
             noWritableCharacteristic?(peripheral)
+            return
         }
+        use(pick, on: peripheral)
+    }
+
+    /// Every characteristic that accepts writes, across all matching services.
+    var writableCandidates: [CBCharacteristic] { candidates }
+
+    /// Switch the write target to one of `writableCandidates`.
+    func select(characteristicUUID: CBUUID, serviceUUID: CBUUID?, on peripheral: CBPeripheral) -> Bool {
+        guard let pick = candidates.first(where: {
+            $0.uuid == characteristicUUID && (serviceUUID == nil || $0.service?.uuid == serviceUUID)
+        }) else { return false }
+        use(pick, on: peripheral)
+        return true
+    }
+
+    private func bestCandidate() -> CBCharacteristic? {
+        for uuid in preferredCharacteristics {
+            if let c = candidates.first(where: { $0.uuid == uuid }) { return c }
+        }
+        return candidates.first { $0.properties.contains(.writeWithoutResponse) } ?? candidates.first
+    }
+
+    private func use(_ pick: CBCharacteristic, on peripheral: CBPeripheral) {
+        diagnostics?("using characteristic \(pick.uuid) [\(pick.properties.printerDescription)] of service \(pick.service?.uuid.uuidString ?? "?"); MTU withoutResponse=\(peripheral.maximumWriteValueLength(for: .withoutResponse)) withResponse=\(peripheral.maximumWriteValueLength(for: .withResponse))")
+        writablePeripheral = peripheral
+        writableCharacteristic = pick
+        if pick.properties.contains(.notify) {
+            peripheral.setNotifyValue(true, for: pick)
+        }
+        wellDoneCanWriteData?(peripheral)
     }
 
     func peripheralIsReady(toSendWriteWithoutResponse peripheral: CBPeripheral) {
@@ -95,7 +130,27 @@ class BluetoothPeripheralDelegate: NSObject, CBPeripheralDelegate {
         didWrite?(peripheral, error)
     }
 
-    func peripheral(_: CBPeripheral, didUpdateValueFor _: CBCharacteristic, error _: Error?) {
-        // Status bytes from the printer (paper out etc.) arrive here. Not surfaced yet.
+    func peripheral(_: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        if let error {
+            diagnostics?("notify \(characteristic.uuid) error: \(error.localizedDescription)")
+        } else if let value = characteristic.value {
+            diagnostics?("notify \(characteristic.uuid): " + value.map { String(format: "%02X", $0) }.joined(separator: " "))
+        }
+    }
+
+    func peripheral(_: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
+        diagnostics?("notifications for \(characteristic.uuid): \(characteristic.isNotifying ? "on" : "off")\(error.map { " (\($0.localizedDescription))" } ?? "")")
+    }
+}
+
+extension CBCharacteristicProperties {
+    var printerDescription: String {
+        var parts = [String]()
+        if contains(.read) { parts.append("read") }
+        if contains(.write) { parts.append("write") }
+        if contains(.writeWithoutResponse) { parts.append("writeNoRsp") }
+        if contains(.notify) { parts.append("notify") }
+        if contains(.indicate) { parts.append("indicate") }
+        return parts.joined(separator: "|")
     }
 }

@@ -23,6 +23,8 @@ final class PrinterSession: ObservableObject {
 
     @Published private(set) var printers: [BluetoothPrinter] = []
     @Published private(set) var connected: BluetoothPrinter?
+    @Published private(set) var characteristics: [(service: String, characteristic: String)] = []
+    @Published var selectedCharacteristic = ""
     @Published private(set) var log: [LogEntry] = []
     @Published private(set) var isSending = false
 
@@ -44,6 +46,7 @@ final class PrinterSession: ObservableObject {
     private func bind() {
         manager.updateHandler = { [weak self] in self?.refresh() }
         manager.errorReport = { [weak self] error in self?.append("Bluetooth error: \(error)", error: true) }
+        manager.diagnostics = { [weak self] message in self?.append("ble: \(message)") }
         manager.writeChunkSize = chunkSize
         manager.interChunkDelay = interChunkDelayMs / 1000
     }
@@ -51,6 +54,8 @@ final class PrinterSession: ObservableObject {
     private func refresh() {
         printers = manager.nearbyPrinters.sorted { ($0.name ?? "~") < ($1.name ?? "~") }
         connected = manager.printer
+        characteristics = manager.writableCharacteristics
+        selectedCharacteristic = manager.currentCharacteristic.map { "\($0.service)/\($0.characteristic)" } ?? ""
     }
 
     func connect(_ printer: BluetoothPrinter) {
@@ -60,6 +65,16 @@ final class PrinterSession: ObservableObject {
 
     func disconnect(_ printer: BluetoothPrinter) {
         manager.disconnect(printer)
+    }
+
+    func selectCharacteristic(_ key: String) {
+        let parts = key.split(separator: "/", maxSplits: 1).map(String.init)
+        guard parts.count == 2 else { return }
+        if manager.useCharacteristic(parts[1], service: parts[0]) {
+            selectedCharacteristic = key
+        } else {
+            append("Could not switch to \(key)", error: true)
+        }
     }
 
     func rescan() {
