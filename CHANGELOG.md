@@ -1,6 +1,6 @@
 # Changelog
 
-## 5.1.0 — unreleased
+## 5.1.0 — 2026-10-17
 
 ### Added
 - `VirtualPrinter(token:)`: sends receipts to the web virtual printer (https://printer.baici.tech), which renders them in the browser — tune layouts without hardware. PrinterLab gained a matching output target.
