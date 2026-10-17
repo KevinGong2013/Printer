@@ -117,9 +117,23 @@ public class BluetoothPrinterManager {
     /// Called on the main queue. Useful when a printer connects but does not print.
     public var diagnostics: ((String) -> Void)?
 
-    /// Maximum bytes per BLE write. `0` (default) uses the negotiated MTU.
-    /// Lower it (e.g. 100) for printers that garble long images.
-    public var writeChunkSize: Int = 0
+    public enum WriteType {
+        /// `withoutResponse` when the characteristic supports it, else `withResponse`.
+        case automatic
+        /// Always ask for an ATT acknowledgement. Slower, but some modules drop
+        /// unacknowledged packets.
+        case withResponse
+        case withoutResponse
+    }
+
+    /// How packets are written. Try `.withResponse` if a printer connects but stays silent.
+    public var writeType: WriteType = .automatic
+
+    /// Maximum bytes per BLE write. Defaults to 20: many printer modules negotiate a
+    /// large MTU but silently drop everything after the first 20 bytes of a packet,
+    /// which shows up as missing lines or garbage. Set `0` to use the negotiated MTU
+    /// once you know the printer handles it (several times faster for images).
+    public var writeChunkSize: Int = 20
 
     /// Pause between chunks. Some cheap printers cannot drain their buffer as fast as
     /// BLE delivers; a few milliseconds here removes white lines in images.
@@ -289,6 +303,7 @@ public class BluetoothPrinterManager {
             RunLoop.main.add(t, forMode: .default)
         }
 
+        diagnostics?("connect \(printer.name ?? printer.identifier.uuidString) (peripheral state \(per.state.rawValue): 0 disconnected, 1 connecting, 2 connected)")
         centralManager.connect(per, options: [CBConnectPeripheralOptionNotifyOnDisconnectionKey: true])
     }
 
@@ -296,6 +311,7 @@ public class BluetoothPrinterManager {
         guard let uuid = (timer.userInfo as? UUID), let p = centralManagerDelegate[uuid] else {
             return
         }
+        diagnostics?("connect timeout after 15 s, cancelling (peripheral state \(p.state.rawValue))")
 
         var printer = BluetoothPrinter(p)
         printer.state = .disconnected
@@ -377,7 +393,7 @@ public class BluetoothPrinterManager {
         }
 
         let job = WriteJob(data: data, peripheral: p, characteristic: c, completion: completeBlock)
-        let type: CBCharacteristicWriteType = c.properties.contains(.writeWithoutResponse) ? .withoutResponse : .withResponse
+        let type = effectiveWriteType(for: c)
         let mtu = p.maximumWriteValueLength(for: type)
         let chunk = writeChunkSize > 0 ? min(writeChunkSize, mtu) : mtu
         diagnostics?("write \(data.count) bytes to \(c.uuid) as \(type == .withoutResponse ? "withoutResponse" : "withResponse"), mtu \(mtu), chunk \(chunk) → \((data.count + max(chunk, 1) - 1) / max(chunk, 1)) packets")
@@ -409,6 +425,16 @@ public class BluetoothPrinterManager {
         }
     }
 
+    private func effectiveWriteType(for characteristic: CBCharacteristic) -> CBCharacteristicWriteType {
+        let canNoRsp = characteristic.properties.contains(.writeWithoutResponse)
+        let canRsp = characteristic.properties.contains(.write)
+        switch writeType {
+        case .withResponse: return canRsp ? .withResponse : .withoutResponse
+        case .withoutResponse: return canNoRsp ? .withoutResponse : .withResponse
+        case .automatic: return canNoRsp ? .withoutResponse : .withResponse
+        }
+    }
+
     private func pumpWrites() {
         while let job = pendingWrites.first {
             guard job.peripheral.state == .connected else {
@@ -422,8 +448,8 @@ public class BluetoothPrinterManager {
                 continue
             }
 
-            let withoutResponse = job.characteristic.properties.contains(.writeWithoutResponse)
-            let type: CBCharacteristicWriteType = withoutResponse ? .withoutResponse : .withResponse
+            let type = effectiveWriteType(for: job.characteristic)
+            let withoutResponse = type == .withoutResponse
 
             if withoutResponse {
                 if #available(iOS 11.0, macOS 10.13, *), !job.peripheral.canSendWriteWithoutResponse {

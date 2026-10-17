@@ -33,7 +33,8 @@ final class PrinterSession: ObservableObject {
     @Published var baudRate = 9600
     @Published var networkHost = "192.168.1.100"
     @Published var networkPort = 9100
-    @Published var chunkSize = 0 { didSet { manager.writeChunkSize = chunkSize } }
+    @Published var chunkSize = 20 { didSet { manager.writeChunkSize = chunkSize } }
+    @Published var writeWithResponse = false { didSet { manager.writeType = writeWithResponse ? .withResponse : .automatic } }
     @Published var interChunkDelayMs = 0.0 { didSet { manager.interChunkDelay = interChunkDelayMs / 1000 } }
     @Published var serviceUUIDs = BluetoothPrinterManager.specifiedServices.sorted().joined(separator: "\n")
 
@@ -49,6 +50,7 @@ final class PrinterSession: ObservableObject {
         manager.diagnostics = { [weak self] message in self?.append("ble: \(message)") }
         manager.writeChunkSize = chunkSize
         manager.interChunkDelay = interChunkDelayMs / 1000
+        manager.writeType = writeWithResponse ? .withResponse : .automatic
     }
 
     private func refresh() {

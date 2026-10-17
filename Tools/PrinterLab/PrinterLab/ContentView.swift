@@ -121,6 +121,7 @@ struct PrintersSidebar: View {
                 }
 
                 Section("Transfer") {
+                    Toggle("Write with response (ACK each packet)", isOn: $session.writeWithResponse)
                     LabeledContent("Chunk size") {
                         TextField("auto", value: $session.chunkSize, format: .number)
                             .textFieldStyle(.roundedBorder)
@@ -131,7 +132,7 @@ struct PrintersSidebar: View {
                             .textFieldStyle(.roundedBorder)
                             .frame(width: 70)
                     }
-                    Text("0 = negotiated MTU, no delay. Lower chunk / add delay if images show white lines.")
+                    Text("20 is the safe default (many modules drop bytes beyond 20 per packet). 0 = negotiated MTU, faster if the printer copes.")
                         .font(.caption).foregroundStyle(.secondary)
                 }
 

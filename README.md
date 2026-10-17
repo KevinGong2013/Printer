@@ -162,9 +162,12 @@ if printerManager.canPrint {
 }
 ```
 
-`write` splits the data into MTU-sized chunks and paces them with
+`write` splits the data into 20-byte packets (`writeChunkSize`) and paces them with
 `canSendWriteWithoutResponse`, so receipts of any length (images included) arrive
-intact. The manager remembers the last printer and reconnects to it on the next
+intact. 20 bytes is what every module handles; printers that accept full-MTU packets
+print images several times faster with `writeChunkSize = 0`, so try that once the
+basics work. `diagnostics` prints the discovered services, the chosen characteristic,
+MTU and packet count when you need to see what is going on. The manager remembers the last printer and reconnects to it on the next
 launch when it is in range.
 
 `BluetoothPrinterSelectTableViewController` is a ready-made UIKit picker; see the
@@ -257,8 +260,12 @@ handy in unit tests and when asking for help in an issue.
   `.disconnected` when it dropped mid-job.
 - **Image prints blank / inverted / cut off** – update to 5.0; earlier versions
   had a broken gray conversion and sent the whole image in one write.
+- **Connected, but nothing prints, or only garbage** – packets are too large for
+  the module. Keep `writeChunkSize` at 20 (the default); if you raised it, lower it.
+  Also power-cycle the printer after your app was killed mid-connection: some
+  modules refuse a new connection until the old link times out.
 - **White horizontal lines in images** – the printer is being fed faster than it
-  prints. Set `interChunkDelay = 0.01` or `writeChunkSize = 100`.
+  prints. Set `interChunkDelay = 0.01`.
 - **Garbage instead of accented letters** – profile encoding and
   `selectCharacterCodePage` do not match; see the encoding table above.
 - **"Index out of range" when printing an image** – fixed in 5.0.
