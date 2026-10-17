@@ -1,6 +1,7 @@
 # Printer
 
-Swift framework for ESC/POS thermal receipt printers over **Bluetooth LE**.
+Swift framework for ESC/POS thermal receipt printers over **Bluetooth LE**,
+**TCP/IP** and (on macOS) **serial / USB-serial**.
 
 Build a receipt with a tiny DSL, get the raw ESC/POS bytes, and send them to any
 58 mm / 80 mm printer that speaks ESC/POS (Gprinter, Xprinter, Munbyn, Rongta,
@@ -194,6 +195,30 @@ An empty set scans for every connectable device. Use a BLE scanner app
 
 Printers that only offer **classic Bluetooth (SPP)** cannot be used from iOS;
 check the box for "BLE" or "iOS support" before buying.
+
+## Network and wired printers
+
+```swift
+// Ethernet / Wi-Fi printers listen on TCP 9100 and print whatever arrives.
+let lan = NetworkPrinter(host: "192.168.1.50")          // iOS + macOS
+lan.write(receipt) { error in … }
+
+// USB-serial printers on a Mac (CH340 / FTDI adapters show up as /dev/cu.*).
+let usb = SerialPrinter(path: "/dev/cu.usbserial-1430", baudRate: 9600)   // macOS only
+usb.write(receipt) { error in … }
+```
+
+iOS exposes no generic USB API, so wired printers are macOS only. USB printers
+that enumerate as a *USB Printer Class* device (no `/dev/cu.*` node) are not
+supported yet; use their Bluetooth or network interface instead.
+
+## Testing with PrinterLab (macOS)
+
+[Tools/PrinterLab](Tools/PrinterLab) is a macOS app that drives every feature of
+this package against a real printer over Bluetooth LE, TCP or a serial device:
+scan / connect, text styles, code pages, images (threshold or dither), QR,
+barcodes, cuts, cash drawer, raw commands, with a live hex dump and a transfer
+log. Generate the project with `xcodegen generate` in that folder and run it.
 
 ## SwiftUI
 

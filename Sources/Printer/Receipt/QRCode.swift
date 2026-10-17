@@ -16,13 +16,13 @@ import Foundation
 /// 4. fn 80 – store data in the symbol storage area
 /// 5. fn 81 – print the stored symbol
 public struct QRCode: ReceiptItem {
-    public enum Model: UInt8 {
+    public enum Model: UInt8, CaseIterable {
         case m_1 = 49
         case m_2 = 50
         case micro = 51
     }
 
-    public enum RecoveryLevel: UInt8 {
+    public enum RecoveryLevel: UInt8, CaseIterable {
         case l = 48 // 7%
         case m = 49 // 15%
         case q = 50 // 25%

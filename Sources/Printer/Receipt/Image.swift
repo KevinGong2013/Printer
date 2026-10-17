@@ -25,7 +25,7 @@ import Foundation
 /// tiny receive buffers and lets Bluetooth printers start printing before the
 /// whole picture has arrived.
 public struct ImageItem: ReceiptItem {
-    public enum Mode: UInt8 {
+    public enum Mode: UInt8, CaseIterable {
         case normal = 0
         case doubleWidth = 1
         case doubleHeight = 2

@@ -22,6 +22,8 @@
 - `KVItem` width now counts CJK characters as two cells using Unicode ranges instead of a single range.
 
 ### Added
+- `NetworkPrinter` (TCP 9100, iOS + macOS) for Ethernet / Wi-Fi printers (#70 #72) and `SerialPrinter` (macOS, `/dev/cu.*`) for USB-serial printers.
+- `Tools/PrinterLab`: macOS test app covering every feature over Bluetooth LE, TCP or serial, with hex dump and transfer log.
 - `ImageItem(binarization: .dither)` Floyd–Steinberg dithering; `ImageItem(data:)` and `ImageItem(base64:)` (#71 #81).
 - `Barcode` (`GS k`): UPC-A/E, EAN-13/8, CODE39, ITF, CODABAR, CODE93, CODE128 (#60).
 - `Command.peripheral(.cashDrawer(...))` (#78), `.style(.characterSize(width:height:))`, `.style(.selectInternationalCharacterSet(_:))`, `.layout(.leftMargin(_:))`, `.layout(.printAreaWidth(_:))`, `.page(.feedAndCut(partial:feed:))`, `.page(.printAndFeedPaper(dots:))`, `.info(.realTimeStatus(_:))`, `Command.raw([UInt8])`.

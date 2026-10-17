@@ -23,13 +23,13 @@ public enum Command {
         case underline = 128
     }
 
-    public enum UnderlineMode: UInt8 {
+    public enum UnderlineMode: UInt8, CaseIterable {
         case enable = 0
         case enable1dot = 1
         case enable2dot = 2
     }
 
-    public enum CharacterFont: UInt8 {
+    public enum CharacterFont: UInt8, CaseIterable {
         case a = 0
         case b = 1
         case c = 2
@@ -41,7 +41,7 @@ public enum Command {
     ///
     /// The receipt's `PrinterProfile.encoding` must match the page you select, e.g.
     /// `.windowsCP1252` with `.wpc1252`, or `String.Encoding.windowsArabic` with `.wpc1256`.
-    public enum CharacterCodePage: UInt8 {
+    public enum CharacterCodePage: UInt8, CaseIterable {
         case pc437 = 0 // USA, standard Europe
         case katakana = 1
         case pc850 = 2 // Multilingual
@@ -99,7 +99,7 @@ public enum Command {
     }
 
     /// International character set for `ESC R n`.
-    public enum InternationalCharacterSet: UInt8 {
+    public enum InternationalCharacterSet: UInt8, CaseIterable {
         case usa = 0, france, germany, uk, denmark1, sweden, italy, spain1, japan, norway
         case denmark2, spain2, latinAmerica, korea, sloveniaCroatia, china, vietnam, arabia
     }
@@ -272,7 +272,7 @@ public enum Command {
         case raw(UInt8)
     }
 
-    public enum Alignment: UInt8 {
+    public enum Alignment: UInt8, CaseIterable {
         case left = 0
         case center = 1
         case right = 2

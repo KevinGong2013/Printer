@@ -7,7 +7,7 @@ import Foundation
 
 /// Prints a 1D barcode with the printer's built-in generator (`GS k`, function B).
 public struct Barcode: ReceiptItem {
-    public enum Symbology: UInt8 {
+    public enum Symbology: UInt8, CaseIterable {
         case upcA = 65
         case upcE = 66
         case ean13 = 67
@@ -20,7 +20,7 @@ public struct Barcode: ReceiptItem {
     }
 
     /// Where the human readable text is printed.
-    public enum TextPosition: UInt8 {
+    public enum TextPosition: UInt8, CaseIterable {
         case none = 0
         case above = 1
         case below = 2

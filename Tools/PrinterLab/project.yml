@@ -1,0 +1,51 @@
+name: PrinterLab
+options:
+  bundleIdPrefix: com.kevingong
+  deploymentTarget:
+    macOS: "13.0"
+  xcodeVersion: "15.0"
+  generateEmptyDirectories: true
+packages:
+  Printer:
+    path: ../..
+targets:
+  PrinterLab:
+    type: application
+    platform: macOS
+    sources:
+      - path: PrinterLab
+    dependencies:
+      - package: Printer
+    info:
+      path: PrinterLab/Info.plist
+      properties:
+        CFBundleDisplayName: PrinterLab
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "1"
+        LSMinimumSystemVersion: "13.0"
+        LSApplicationCategoryType: public.app-category.developer-tools
+        NSBluetoothAlwaysUsageDescription: PrinterLab talks to your thermal printer over Bluetooth LE.
+        NSHumanReadableCopyright: Apache License 2.0
+    entitlements:
+      path: PrinterLab/PrinterLab.entitlements
+      properties:
+        com.apple.security.app-sandbox: false
+        com.apple.security.device.bluetooth: true
+    settings:
+      base:
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "-"
+        DEVELOPMENT_TEAM: ""
+        PRODUCT_BUNDLE_IDENTIFIER: com.kevingong.PrinterLab
+        SWIFT_VERSION: "5.7"
+        MACOSX_DEPLOYMENT_TARGET: "13.0"
+        ENABLE_HARDENED_RUNTIME: false
+        COMBINE_HIDPI_IMAGES: true
+        SWIFT_STRICT_CONCURRENCY: minimal
+schemes:
+  PrinterLab:
+    build:
+      targets:
+        PrinterLab: all
+    run:
+      config: Debug
