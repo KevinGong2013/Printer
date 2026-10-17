@@ -287,6 +287,12 @@ handy in unit tests and when asking for help in an issue.
   modules refuse a new connection until the old link times out.
 - **White horizontal lines in images** – the printer is being fed faster than it
   prints. Set `interChunkDelay = 0.01`.
+- **`¥` prints as a Chinese character, or the last digit of a `KVItem` price wraps
+  to the next line** (Gprinter / Xprinter with `GB_18030_2000`) – update the library.
+  CoreFoundation encodes `¥` (U+00A5) as the 4-byte GB18030 sequence `81 30 84 36`,
+  which GBK-only firmware draws as an unrelated ideograph; the library now sends
+  the full-width `￥` (`A3 A4`) on GB profiles and counts every multi-byte character
+  as two cells when laying out `KVItem`.
 - **Garbage instead of accented letters** – profile encoding and
   `selectCharacterCodePage` do not match; see the encoding table above.
 - **"Index out of range" when printing an image** – fixed in 5.0.

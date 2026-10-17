@@ -31,6 +31,47 @@ final class ReceiptTests: XCTestCase {
         XCTAssertEqual("中".assemblePrintableData(gb), [0xD6, 0xD0, 10])
     }
 
+    func testYenSignIsSentAsFullWidthOnGBPrinters() {
+        let gb = PrinterProfile.🖨️58(String.GBEncoding.GB_18030_2000)
+        XCTAssertEqual("¥12".assemblePrintableData(gb), [0xA3, 0xA4, 0x31, 0x32, 10])
+        XCTAssertEqual("￥1".assemblePrintableData(gb), [0xA3, 0xA4, 0x31, 10])
+        // Not a GB printer: the encoder decides as before.
+        XCTAssertEqual("¥1".assemblePrintableData(.🖨️58(.utf8)), [0xC2, 0xA5, 0x31, 10])
+        let cp437 = PrinterProfile.🖨️58(String.Encoding(
+            rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.dosLatinUS.rawValue))))
+        XCTAssertEqual("¥1".assemblePrintableData(cp437), [0x9D, 0x31, 10])
+        XCTAssertEqual("¥1".assemblePrintableData(.🖨️58(.windowsCP1252)), [0xA5, 0x31, 10])
+    }
+
+    func testKVItemCountsMultiByteSymbolsAsDoubleWidthOnGBPrinters() {
+        // "¥" (U+00A5) is a 4-byte GB18030 sequence that a GBK printer draws two cells wide.
+        let gb = PrinterProfile.🖨️58(String.GBEncoding.GB_18030_2000)
+        XCTAssertEqual("¥".printableWidth(gb), 2)
+        XCTAssertEqual("芝士蛋糕 Cheesecake x1".printableWidth(gb), 22)
+        let bytes = KVItem("芝士蛋糕 Cheesecake x1", "¥18.50").assemblePrintableData(gb)
+        let line = String(data: Data(bytes.dropLast()), encoding: String.GBEncoding.GB_18030_2000)!
+        XCTAssertEqual(line.printableWidth(gb), 32)
+        XCTAssertTrue(line.contains("x1   ￥18.50"), line) // 32 - 22 - 7 = 3 spaces
+
+        // Single-byte code pages keep one cell per character.
+        let cp1252 = PrinterProfile.🖨️58(.windowsCP1252)
+        XCTAssertEqual("¥".printableWidth(cp1252), 1)
+        XCTAssertEqual(KVItem("Total", "¥12.00").assemblePrintableData(cp1252).count, cp1252.charactersPerLine + 1)
+        // UTF-8 is not a DBCS code page: "¥" is 2 bytes but still one cell.
+        XCTAssertEqual("¥".printableWidth(profile), 1)
+    }
+
+    func testEncodingClassification() {
+        XCTAssertTrue(String.GBEncoding.GB_18030_2000.isGBFamily)
+        XCTAssertTrue(String.GBEncoding.GB_18030_2000.isLegacyMultiByte)
+        XCTAssertTrue(String.Encoding.shiftJIS.isLegacyMultiByte)
+        XCTAssertFalse(String.Encoding.shiftJIS.isGBFamily)
+        for encoding in [String.Encoding.utf8, .utf16, .unicode, .utf32, .ascii, .windowsCP1252, .isoLatin1, .macOSRoman] {
+            XCTAssertFalse(encoding.isGBFamily, "\(encoding)")
+            XCTAssertFalse(encoding.isLegacyMultiByte, "\(encoding)")
+        }
+    }
+
     func testKVItemFillsExactlyOneLine() {
         let bytes = KVItem("Total", "¥12.00").assemblePrintableData(profile)
         let line = String(decoding: bytes.dropLast(), as: UTF8.self)
