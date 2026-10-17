@@ -1,5 +1,14 @@
 # Changelog
 
+## 5.1.1 — 2026-10-17
+
+### Fixed
+- `¥` (U+00A5) on GB2312 / GBK / GB18030 profiles is sent as the full-width `￥` (`A3 A4`). CoreFoundation encoded it as the 4-byte GB18030 sequence `81 30 84 36`, which GBK-only printers such as the Gprinter GP-58 printed as an unrelated Chinese character.
+- `KVItem` layout on legacy multi-byte code pages (GB*, Big5, Shift_JIS, EUC-*): every character that encodes to more than one byte is counted as two cells, not only CJK ideographs, so the last digit of a right-aligned `¥` price no longer wraps to the next line. New `printableWidth(_ profile:)`; the encoding-agnostic `printableWidth` is unchanged.
+
+### Changed
+- Example app prints the same GB18030 Chinese receipt as the Android sample and has a **Virtual Printer** button; README leads with the virtual printer.
+
 ## 5.1.0 — 2026-10-17
 
 ### Added
