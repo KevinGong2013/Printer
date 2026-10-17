@@ -1,5 +1,5 @@
 //
-//  Dummy.swift
+//  DummyPrinter.swift
 //  Printer
 //
 //  Created by gix on 2019/7/29.
@@ -8,23 +8,29 @@
 
 import Foundation
 
-// For debug
-
-public protocol TicketRender: NSObject {
-    
-    func printerDidGenerate(_ printer: DummyPrinter, html htmlTicket: String)
-}
-
+/// A printer that only records what it would have printed. Useful in unit tests
+/// and for debugging receipts without hardware.
 public class DummyPrinter {
-    
-    public weak var ticketRender: TicketRender?
-    
+    /// Called with every payload passed to `write(_:)`.
+    public var onWrite: ((Data) -> Void)?
+
+    /// Every payload written so far.
+    public private(set) var history = [Data]()
+
+    /// When `true` (the default) each payload is also logged as base64 via `debugPrint`.
+    public var logsToConsole = true
+
     public init() {}
-    
+
     public func write(_ data: Data) {
-        
-        let value = data.base64EncodedString()
-        
-        debugPrint(value)
+        history.append(data)
+        onWrite?(data)
+        if logsToConsole {
+            debugPrint(data.base64EncodedString())
+        }
+    }
+
+    public func write(_ receipt: Receipt) {
+        write(receipt.bytes)
     }
 }

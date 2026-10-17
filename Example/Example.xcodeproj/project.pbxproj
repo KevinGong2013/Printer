@@ -3,16 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		PR0D0C7DEP000000000001 /* Printer in Frameworks */ = {isa = PBXBuildFile; productRef = PR0D0C7DEP000000000002 /* Printer */; };
 		0A7713231DF9140C0009867F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7713221DF9140C0009867F /* AppDelegate.swift */; };
 		0A7713251DF9140C0009867F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7713241DF9140C0009867F /* ViewController.swift */; };
 		0A7713281DF9140C0009867F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A7713261DF9140C0009867F /* Main.storyboard */; };
 		0A77132A1DF9140C0009867F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A7713291DF9140C0009867F /* Assets.xcassets */; };
 		0A77132D1DF9140C0009867F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A77132B1DF9140C0009867F /* LaunchScreen.storyboard */; };
-		2962722BCEEC5D15A635B6C8 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D64726DBB550D9C0443D18D2 /* Pods_Example.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,9 +36,6 @@
 		0A7713291DF9140C0009867F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A77132C1DF9140C0009867F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0A77132E1DF9140C0009867F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5FE2DF173FC52C0A40D01949 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
-		6645EC7B07DA71DAB12A02CF /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
-		D64726DBB550D9C0443D18D2 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,7 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2962722BCEEC5D15A635B6C8 /* Pods_Example.framework in Frameworks */,
+				PR0D0C7DEP000000000001 /* Printer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,7 +55,6 @@
 			children = (
 				0A7713211DF9140C0009867F /* Example */,
 				0A7713201DF9140C0009867F /* Products */,
-				E71DF38A36C3A12117AEE222 /* Pods */,
 				80C28828198E25BF3A5038D9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -87,18 +83,8 @@
 		80C28828198E25BF3A5038D9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D64726DBB550D9C0443D18D2 /* Pods_Example.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		E71DF38A36C3A12117AEE222 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				5FE2DF173FC52C0A40D01949 /* Pods-Example.debug.xcconfig */,
-				6645EC7B07DA71DAB12A02CF /* Pods-Example.release.xcconfig */,
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -108,18 +94,19 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0A7713311DF9140C0009867F /* Build configuration list for PBXNativeTarget "Example" */;
 			buildPhases = (
-				8CE338884D47CB78BAE47203 /* [CP] Check Pods Manifest.lock */,
 				0A77131B1DF9140C0009867F /* Sources */,
 				0A77131C1DF9140C0009867F /* Frameworks */,
 				0A77131D1DF9140C0009867F /* Resources */,
 				0A77135C1DF915E00009867F /* Embed Frameworks */,
-				95151339D137D09ED307F2C6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Example;
+			packageProductDependencies = (
+				PR0D0C7DEP000000000002 /* Printer */,
+			);
 			productName = Example;
 			productReference = 0A77131F1DF9140C0009867F /* Example.app */;
 			productType = "com.apple.product-type.application";
@@ -131,7 +118,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = Kevin;
 				TargetAttributes = {
 					0A77131E1DF9140C0009867F = {
@@ -150,6 +137,9 @@
 				Base,
 			);
 			mainGroup = 0A7713161DF9140C0009867F;
+			packageReferences = (
+				PR0D0C7DEP000000000003 /* XCLocalSwiftPackageReference ".." */,
+			);
 			productRefGroup = 0A7713201DF9140C0009867F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -173,46 +163,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		8CE338884D47CB78BAE47203 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Example-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		95151339D137D09ED307F2C6 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Printer/Printer.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Printer.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -297,7 +247,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -351,7 +301,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -362,13 +312,12 @@
 		};
 		0A7713321DF9140C0009867F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5FE2DF173FC52C0A40D01949 /* Pods-Example.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -377,13 +326,12 @@
 		};
 		0A7713331DF9140C0009867F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6645EC7B07DA71DAB12A02CF /* Pods-Example.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Example/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -412,6 +360,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+/* Begin XCLocalSwiftPackageReference section */
+		PR0D0C7DEP000000000003 /* XCLocalSwiftPackageReference ".." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ..;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		PR0D0C7DEP000000000002 /* Printer */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Printer;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0A7713171DF9140C0009867F /* Project object */;
 }

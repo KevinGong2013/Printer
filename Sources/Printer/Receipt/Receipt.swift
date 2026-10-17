@@ -9,38 +9,58 @@ import Foundation
 
 public extension String {
     enum GBEncoding {
-        // 一般支持中文的打印机 需要设置为这个 编码
+        /// Most Chinese-market printers (Gprinter, Xprinter, …) expect GB18030 / GBK bytes.
         public static let GB_18030_2000 = String.Encoding(
             rawValue: CFStringConvertEncodingToNSStringEncoding(
                 CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue)))
     }
-}
 
-public extension PrinterProfile {
-    static func 🖨️58(_ encoding: String.Encoding = .ascii) -> PrinterProfile {
-        return PrinterProfile(maxWidthDensity: 384, fontDensity: 12, encoding: encoding)
+    enum ArabicEncoding {
+        /// Windows-1256. Pair with `Command.CharacterCodePage.wpc1256`.
+        public static let windowsArabic = String.Encoding(
+            rawValue: CFStringConvertEncodingToNSStringEncoding(
+                CFStringEncoding(CFStringEncodings.windowsArabic.rawValue)))
     }
-
-    // Welcome add your mode profile.
 }
 
+/// Describes the paper width and font of the target printer.
 public struct PrinterProfile {
+    /// Printable width in dots (58 mm paper: 384, 80 mm paper: 576).
     public let maxWidthDensity: Int
+    /// Width of one character cell in dots (font A: 12, font B: 9).
     public let fontDensity: Int
-
     public let encoding: String.Encoding
 
     public init(maxWidthDensity: Int, fontDensity: Int, encoding: String.Encoding) {
         self.maxWidthDensity = maxWidthDensity
-        self.fontDensity = fontDensity
+        self.fontDensity = max(1, fontDensity)
         self.encoding = encoding
+    }
+
+    /// Characters per line for `KVItem` and `Dividing`.
+    public var charactersPerLine: Int {
+        maxWidthDensity / fontDensity
     }
 }
 
-//    https://reference.epson-biz.com/modules/ref_escpos/index.php
+public extension PrinterProfile {
+    /// 58 mm paper, 384 dots, font A.
+    static func 🖨️58(_ encoding: String.Encoding = .ascii) -> PrinterProfile {
+        PrinterProfile(maxWidthDensity: 384, fontDensity: 12, encoding: encoding)
+    }
 
+    /// 80 mm paper, 576 dots, font A.
+    static func 🖨️80(_ encoding: String.Encoding = .ascii) -> PrinterProfile {
+        PrinterProfile(maxWidthDensity: 576, fontDensity: 12, encoding: encoding)
+    }
+
+    static func paper58(_ encoding: String.Encoding = .ascii) -> PrinterProfile { 🖨️58(encoding) }
+    static func paper80(_ encoding: String.Encoding = .ascii) -> PrinterProfile { 🖨️80(encoding) }
+}
+
+/// An ordered list of `ReceiptItem`s that is rendered to ESC/POS bytes on demand.
 public class Receipt {
-    let profile: PrinterProfile
+    public let profile: PrinterProfile
 
     fileprivate var items = [ReceiptItem]()
 
@@ -53,7 +73,12 @@ public class Receipt {
     }
 
     public var data: [UInt8] {
-        return items.map { $0.assemblePrintableData(profile) }.reduce([], +)
+        items.map { $0.assemblePrintableData(profile) }.reduce([], +)
+    }
+
+    /// Same as `data`, as `Data`.
+    public var bytes: Data {
+        Data(data)
     }
 }
 
@@ -66,7 +91,7 @@ struct CombineReceiptItem: ReceiptItem {
     let right: ReceiptItem
 
     func assemblePrintableData(_ profile: PrinterProfile) -> [UInt8] {
-        return left.assemblePrintableData(profile) + right.assemblePrintableData(profile)
+        left.assemblePrintableData(profile) + right.assemblePrintableData(profile)
     }
 }
 
@@ -84,13 +109,13 @@ public func <<< (left: Receipt, right: ReceiptItem) -> Receipt {
 
 @discardableResult
 public func <<< (left: ReceiptItem, right: ReceiptItem) -> ReceiptItem {
-    return CombineReceiptItem(left: left, right: right)
+    CombineReceiptItem(left: left, right: right)
 }
 
-/// Convernice for Xcode
+/// Convenience for Xcode
 extension Command: ReceiptItem {
-    public func assemblePrintableData(_ profile: PrinterProfile) -> [UInt8] {
-        return value
+    public func assemblePrintableData(_: PrinterProfile) -> [UInt8] {
+        value
     }
 }
 
@@ -103,10 +128,10 @@ infix operator <<~: CommandPrecedence
 
 @discardableResult
 public func <<~ (left: Receipt, right: Command) -> Receipt {
-    return left <<< right
+    left <<< right
 }
 
 @discardableResult
 public func <<~ (left: ReceiptItem, right: Command) -> ReceiptItem {
-    return left <<< right
+    left <<< right
 }

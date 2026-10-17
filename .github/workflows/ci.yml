@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [refactor, master, develop]
+  pull_request:
+
+jobs:
+  test:
+    name: swift test (macOS)
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.4.app
+      - run: swift --version
+      - run: swift build -v
+      - run: swift test -v
+
+  ios:
+    name: build (iOS Simulator)
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.4.app
+      - name: Build library
+        run: |
+          xcodebuild -scheme Printer \
+            -destination 'generic/platform=iOS Simulator' \
+            -skipPackagePluginValidation \
+            build | xcpretty && exit ${PIPESTATUS[0]}
