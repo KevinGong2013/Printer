@@ -64,6 +64,17 @@ struct PrintersSidebar: View {
                         .font(.caption).foregroundStyle(.secondary)
                 }
 
+                if session.target == .virtual {
+                    HStack {
+                        TextField("Token from the web page", text: $session.virtualToken)
+                            .textFieldStyle(.roundedBorder)
+                            .font(.system(.body, design: .monospaced))
+                        Link("Open page", destination: VirtualPrinter(token: session.virtualToken.isEmpty ? "" : session.virtualToken).pageURL)
+                    }
+                    Text("Open \(VirtualPrinter.defaultBaseURL.host ?? "") in a browser, type its 6-character token here, and every send is rendered there.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
+
                 if session.target == .devicePath {
                     TextField("Device path", text: $session.devicePath)
                         .textFieldStyle(.roundedBorder)

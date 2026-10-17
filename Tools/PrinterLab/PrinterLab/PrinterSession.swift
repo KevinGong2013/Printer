@@ -16,6 +16,7 @@ final class PrinterSession: ObservableObject {
     enum Target: String, CaseIterable, Identifiable {
         case bluetooth = "Bluetooth LE"
         case network = "Network (TCP 9100)"
+        case virtual = "Virtual printer (web)"
         case devicePath = "Serial / device path"
         case file = "Save to file"
         var id: String { rawValue }
@@ -31,6 +32,7 @@ final class PrinterSession: ObservableObject {
     @Published var target: Target = .bluetooth
     @Published var devicePath = "/dev/cu.usbserial"
     @Published var baudRate = 9600
+    @Published var virtualToken = ""
     @Published var networkHost = "192.168.1.100"
     @Published var networkPort = 9100
     @Published var chunkSize = 20 { didSet { manager.writeChunkSize = chunkSize } }
@@ -138,6 +140,24 @@ final class PrinterSession: ObservableObject {
                     self?.append("\(label): \(self?.networkHost ?? ""):\(self?.networkPort ?? 0) failed after \(ms) ms – \(error)", error: true)
                 } else {
                     self?.append("\(label): \(data.count) bytes sent to \(self?.networkHost ?? ""):\(self?.networkPort ?? 0) in \(ms) ms")
+                }
+            }
+        case .virtual:
+            guard !virtualToken.isEmpty else {
+                append("Enter the token shown on the virtual printer page", error: true)
+                return
+            }
+            isSending = true
+            let started = Date()
+            let printer = VirtualPrinter(token: virtualToken)
+            printer.name = "PrinterLab"
+            printer.write(data) { [weak self] error in
+                self?.isSending = false
+                let ms = Int(Date().timeIntervalSince(started) * 1000)
+                switch error {
+                case nil: self?.append("\(label): \(data.count) bytes rendered on \(printer.pageURL.absoluteString) in \(ms) ms")
+                case .deviceNotReady?: self?.append("\(label): nobody is viewing token \(printer.token) – open \(printer.pageURL.absoluteString)", error: true)
+                case let e?: self?.append("\(label): \(e)", error: true)
                 }
             }
         case .devicePath:

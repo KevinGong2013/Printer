@@ -84,3 +84,76 @@ final class NetworkPrinterTests: XCTestCase {
         }
     }
 #endif
+
+final class VirtualPrinterTests: XCTestCase {
+    /// Minimal HTTP server on a random port: records the request and answers `status`.
+    private func serve(status: Int, onRequest: @escaping (String, Data) -> Void) throws -> UInt16 {
+        let listener = try NWListener(using: .tcp, on: .any)
+        listener.newConnectionHandler = { connection in
+            connection.start(queue: .global())
+            var buffer = Data()
+            func read() {
+                connection.receive(minimumIncompleteLength: 1, maximumLength: 65536) { data, _, _, _ in
+                    if let data { buffer.append(data) }
+                    guard let headerEnd = buffer.range(of: Data("\r\n\r\n".utf8)) else { return read() }
+                    let head = String(decoding: buffer[..<headerEnd.lowerBound], as: UTF8.self)
+                    let length = head.split(separator: "\r\n")
+                        .first { $0.lowercased().hasPrefix("content-length:") }
+                        .flatMap { Int($0.split(separator: ":")[1].trimmingCharacters(in: .whitespaces)) } ?? 0
+                    let body = buffer[headerEnd.upperBound...]
+                    guard body.count >= length else { return read() }
+                    onRequest(head, Data(body.prefix(length)))
+                    let reply = "HTTP/1.1 \(status) X\r\nContent-Length: 2\r\nConnection: close\r\n\r\n{}"
+                    connection.send(content: Data(reply.utf8), completion: .contentProcessed { _ in connection.cancel() })
+                }
+            }
+            read()
+        }
+        let ready = expectation(description: "ready")
+        listener.stateUpdateHandler = { if case .ready = $0 { ready.fulfill() } }
+        listener.start(queue: .global())
+        wait(for: [ready], timeout: 5)
+        addTeardownBlock { listener.cancel() }
+        return try XCTUnwrap(listener.port?.rawValue)
+    }
+
+    func testPostsRawBytesToTokenURL() throws {
+        var head = "", body = Data()
+        let got = expectation(description: "request")
+        let port = try serve(status: 202) { h, b in head = h; body = b; got.fulfill() }
+
+        let printer = VirtualPrinter(token: " k7q2mz\n", baseURL: URL(string: "http://127.0.0.1:\(port)")!)
+        printer.name = "unit test"
+        let done = expectation(description: "done")
+        var result: PError? = .deviceNotReady
+        printer.write(Data([27, 64, 0x41, 10])) { result = $0; done.fulfill() }
+        wait(for: [got, done], timeout: 5)
+
+        XCTAssertNil(result)
+        XCTAssertTrue(head.hasPrefix("POST /api/v1/jobs/K7Q2MZ HTTP/1.1"), head)
+        XCTAssertTrue(head.lowercased().contains("content-type: application/octet-stream"))
+        XCTAssertTrue(head.contains("X-Printer-Name: unit test"))
+        XCTAssertEqual(body, Data([27, 64, 0x41, 10]))
+        XCTAssertEqual(printer.pageURL.absoluteString, "http://127.0.0.1:\(port)?token=K7Q2MZ")
+    }
+
+    func testUnknownTokenIsDeviceNotReady() throws {
+        let port = try serve(status: 404) { _, _ in }
+        let printer = VirtualPrinter(token: "ABCDEF", baseURL: URL(string: "http://127.0.0.1:\(port)")!)
+        let done = expectation(description: "done")
+        var result: PError?
+        printer.write(Data([1])) { result = $0; done.fulfill() }
+        wait(for: [done], timeout: 5)
+        guard case .deviceNotReady? = result else { return XCTFail("expected deviceNotReady, got \(String(describing: result))") }
+    }
+
+    func testServerErrorIsWriteFailed() throws {
+        let port = try serve(status: 500) { _, _ in }
+        let printer = VirtualPrinter(token: "ABCDEF", baseURL: URL(string: "http://127.0.0.1:\(port)")!)
+        let done = expectation(description: "done")
+        var result: PError?
+        printer.write(Data([1])) { result = $0; done.fulfill() }
+        wait(for: [done], timeout: 5)
+        guard case .writeFailed? = result else { return XCTFail("expected writeFailed, got \(String(describing: result))") }
+    }
+}

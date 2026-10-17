@@ -206,6 +206,20 @@ An empty set scans for every connectable device. Use a BLE scanner app
 Printers that only offer **classic Bluetooth (SPP)** cannot be used from iOS;
 check the box for "BLE" or "iOS support" before buying.
 
+## Virtual printer in the browser
+
+Open <https://printer.baici.tech>, read the 6-character token on the page, and send
+receipts to it like to any other printer. Every job is rendered as a receipt image
+in that tab, with the hex dump next to it — no hardware needed while tuning a layout.
+
+```swift
+let printer = VirtualPrinter(token: "K7Q2MZ")   // the token shown on the page
+printer.write(receipt) { error in … }           // .deviceNotReady = nobody is viewing that token
+```
+
+The same token works from the Android library and from `curl`
+(`POST https://printer.baici.tech/api/v1/jobs/K7Q2MZ` with the raw bytes).
+
 ## Network and wired printers
 
 ```swift
