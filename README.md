@@ -1,5 +1,12 @@
 # Printer
 
+[![CI](https://github.com/KevinGong2013/Printer/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/KevinGong2013/Printer/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/KevinGong2013/Printer?include_prereleases&sort=semver)](https://github.com/KevinGong2013/Printer/releases)
+[![Swift Package Manager](https://img.shields.io/badge/SPM-compatible-brightgreen.svg)](https://swift.org/package-manager/)
+[![Platforms](https://img.shields.io/badge/platforms-iOS%2012%2B%20%7C%20macOS%2010.15%2B-blue.svg)](Package.swift)
+[![Swift](https://img.shields.io/badge/Swift-5.7%2B-orange.svg)](https://swift.org)
+[![License](https://img.shields.io/github/license/KevinGong2013/Printer)](LICENSE)
+
 Swift framework for ESC/POS thermal receipt printers over **Bluetooth LE**,
 **TCP/IP** and (on macOS) **serial / USB-serial**.
 
