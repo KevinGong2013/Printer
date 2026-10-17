@@ -16,8 +16,15 @@ class ViewController: UIViewController {
 
     @IBOutlet var webView: WKWebView!
 
+    /// Token of the virtual printer page (https://printer.baici.tech), remembered between launches.
+    private var virtualToken: String {
+        get { UserDefaults.standard.string(forKey: "virtualPrinterToken") ?? "" }
+        set { UserDefaults.standard.set(newValue, forKey: "virtualPrinterToken") }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        addVirtualPrinterButton()
 
         bluetoothPrinterManager.errorReport = { error in
             print("printer error:", error)
@@ -33,30 +40,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func touchPrint(sender: UIButton) {
-        guard let image = UIImage(named: "demo"), let cgImage = image.cgImage else {
-            return
-        }
-
-        let receipt = Receipt(.🖨️58(.utf8))
-            <<~ .style(.initialize)
-            <<~ .layout(.justification(.center))
-            <<~ .style(.characterSize(width: 2, height: 2))
-            <<< "Printer"
-            <<~ .style(.characterSize(width: 1, height: 1))
-            <<< Dividing.default()
-            <<~ .layout(.justification(.left))
-            <<< KVItem("Coffee", "3.50")
-            <<< KVItem("Bagel", "2.00")
-            <<~ .style(.emphasis(enable: true))
-            <<< KVItem("Total", "5.50")
-            <<~ .style(.emphasis(enable: false))
-            <<< Dividing.default()
-            <<~ .layout(.justification(.center))
-            <<< ImageItem(cgImage, binarization: .dither)
-            <<< QRCode(content: "https://github.com/KevinGong2013/Printer", moduleSize: 6)
-            <<< Barcode("PRINTER-001", height: 60, moduleWidth: 2)
-            <<~ .page(.printAndFeed(lines: 3))
-            <<~ .page(.feedAndCut(partial: true, feed: 0))
+        guard let receipt = makeReceipt() else { return }
 
         if bluetoothPrinterManager.canPrint {
             bluetoothPrinterManager.write(receipt) { error in
@@ -65,6 +49,95 @@ class ViewController: UIViewController {
         }
 
         dummyPrinter.write(receipt)
+    }
+
+    /// Same sample receipt as the Android demo: GB18030 profile, Chinese + "¥" prices.
+    private func makeReceipt() -> Receipt? {
+        guard let image = UIImage(named: "demo"), let cgImage = image.cgImage else {
+            return nil
+        }
+
+        return Receipt(.🖨️58(String.GBEncoding.GB_18030_2000))
+            <<~ .style(.initialize)
+            <<~ .layout(.justification(.center))
+            <<~ .style(.characterSize(width: 2, height: 2))
+            <<< "Printer Sample"
+            <<~ .style(.characterSize(width: 1, height: 1))
+            <<< "ESC/POS 示例小票 · iOS"
+            <<~ .layout(.justification(.left))
+            <<< Dividing.default()
+            <<< KVItem("咖啡 Coffee x1", "¥12.00")
+            <<< KVItem("芝士蛋糕 Cheesecake x1", "¥18.50")
+            <<< KVItem("矿泉水 Water x2", "¥6.00")
+            <<< Dividing.default()
+            <<~ .style(.emphasis(enable: true))
+            <<< KVItem("合计 Total", "¥36.50")
+            <<~ .style(.emphasis(enable: false))
+            <<< "已支付 微信支付 WeChat Pay"
+            <<< Dividing.default(provider: "=")
+            <<~ .layout(.justification(.center))
+            <<< ImageItem(cgImage, binarization: .dither)
+            <<< QRCode(content: "https://github.com/KevinGong2013/Printer", moduleSize: 6)
+            <<< Barcode("PRINTER-001", height: 60, moduleWidth: 2)
+            <<< "谢谢惠顾 Thank you!"
+            <<~ .page(.printAndFeed(lines: 3))
+            <<~ .page(.feedAndCut(partial: true, feed: 0))
+    }
+
+    // MARK: - Virtual printer (no hardware needed)
+
+    /// A button under "Print" that sends the same receipt to the web virtual printer:
+    /// open https://printer.baici.tech, type the 6-character token it shows, done.
+    private func addVirtualPrinterButton() {
+        let button = UIButton(type: .system)
+        button.setTitle("Virtual Printer (no hardware)", for: .normal)
+        button.addTarget(self, action: #selector(touchVirtualPrint), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(button)
+        NSLayoutConstraint.activate([
+            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -32),
+        ])
+    }
+
+    @objc private func touchVirtualPrint() {
+        let alert = UIAlertController(
+            title: "Virtual Printer",
+            message: "Open printer.baici.tech in any browser and enter the 6-character token shown on the page.",
+            preferredStyle: .alert)
+        alert.addTextField { [virtualToken] field in
+            field.placeholder = "Token, e.g. K7Q2MZ"
+            field.text = virtualToken
+            field.autocapitalizationType = .allCharacters
+            field.autocorrectionType = .no
+        }
+        alert.addAction(UIAlertAction(title: "Open page", style: .default) { _ in
+            UIApplication.shared.open(VirtualPrinter.defaultBaseURL)
+        })
+        alert.addAction(UIAlertAction(title: "Print", style: .default) { [weak self] _ in
+            guard let self, let token = alert.textFields?.first?.text, let receipt = self.makeReceipt() else { return }
+            self.virtualToken = token
+            let printer = VirtualPrinter(token: token)
+            printer.name = "Printer Example (iOS)"
+            printer.write(receipt) { error in
+                DispatchQueue.main.async { self.showVirtualResult(error) }
+            }
+            self.dummyPrinter.write(receipt)
+        })
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        present(alert, animated: true)
+    }
+
+    private func showVirtualResult(_ error: PError?) {
+        let message: String
+        switch error {
+        case nil: message = "Sent. Look at the browser tab."
+        case .deviceNotReady?: message = "Nobody is viewing that token. Check the page is open and the token is right."
+        case let e?: message = "Failed: \(e)"
+        }
+        let alert = UIAlertController(title: "Virtual Printer", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

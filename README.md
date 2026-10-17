@@ -34,6 +34,20 @@ let receipt = Receipt(.🖨️58(.utf8))
 printerManager.write(receipt) { error in … }
 ```
 
+## No printer at hand? Try the virtual printer
+
+Open <https://printer.baici.tech> in any browser. The page shows a 6-character token;
+send receipts to it and watch them render live, with the hex dump next to the image.
+
+```swift
+let printer = VirtualPrinter(token: "K7Q2MZ")   // the token on the page
+printer.write(receipt) { error in … }
+```
+
+The [Example app](Example) has a **Virtual Printer** button that does exactly this, and
+the same token works from the [Android library](https://github.com/KevinGong2013/Printer-Android)
+and from `curl`. Details in [Virtual printer in the browser](#virtual-printer-in-the-browser).
+
 ## Requirements
 
 - iOS 12+ (the receipt builder also compiles for macOS 10.15+)
